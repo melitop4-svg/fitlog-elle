@@ -598,7 +598,7 @@ var TABS={home:vHome,train:vTrain,food:vFood,cycle:vCycle,prog:vProg,more:vMore}
 var SUBS={plan:vPlan,progEdit:vProgEdit,history:vHistory,workout:vWorkout,exDetail:vExDetail,library:vLibrary,foodAdd:vFoodAdd,goals:vGoals,body:vBody,tools:vTools,settings:vSettings,install:vInstall};
 var STACK=[];
 function render(keep){
- var y=window.scrollY;
+ var y=window.scrollY;if(S)ensureCustom();
  var html=!S.onboarded?vOnboard():(UI.sub&&SUBS[UI.sub]?SUBS[UI.sub]():(TABS[UI.tab]||vHome)());
  $('#app').innerHTML='<main class="main">'+html+'</main>'+(S.onboarded?tabbar():'');
  saveUI();applyTheme();
@@ -1015,7 +1015,16 @@ var ING={
  fblanc:['Fromage blanc 0 %',47,7.5,4,0.2,0,5],
  skyr:['Skyr nature',63,11,4,0.2,0,5],
  lait:['Lait demi-écrémé',46,3.3,4.8,1.6,0,5],
- emmental:['Emmental râpé',380,28,0,30,0,5],
+ emmental:['Fromage râpé (emmental)',380,28,0,30,0,5],
+ fromage:['Fromage (comté, gruyère, raclette…)',400,27,0,32,0,5],
+ parmesan:['Parmesan',400,32,0,29,0,5],
+ chevre:['Fromage de chèvre',260,16,1,21,0,5],
+ creme:['Crème fraîche légère',120,3,4,10,0,5],
+ beurre:['Beurre',740,0.7,0.6,82,0,5],
+ lardons:['Lardons',250,15,0,21,0,4],
+ saucisse:['Saucisses',280,13,1,25,0,4,'saucisse',50],
+ rizc:['Riz complet',350,7.5,73,2.7,3.5,2],
+ quinoa:['Quinoa',368,14,64,6,7,2],
  brocoli:['Brocolis (surgelés)',30,2.8,4,0.4,2.6,6],
  hverts:['Haricots verts (surgelés)',31,1.8,7,0.2,2.7,6],
  epinards:['Épinards hachés (surgelés)',23,2.9,3.6,0.4,2.2,6],
@@ -1077,6 +1086,15 @@ var LIDL={
  skyr:['Skyr nature · Milbona 450 g',450,1.59],
  lait:['Lait demi-écrémé · Milbona 1 L',1000,0.99],
  emmental:['Emmental râpé · Milbona 200 g',200,1.79],
+ fromage:['Comté AOP · 200 g',200,2.99],
+ parmesan:['Parmesan · Italiamo 200 g',200,2.99],
+ chevre:['Bûche de chèvre · 180 g',180,1.79],
+ creme:['Crème fraîche légère 15 % · 20 cl',200,0.99],
+ beurre:['Beurre doux · Milbona 250 g',250,2.29],
+ lardons:['Lardons fumés · 2 × 100 g',200,1.89],
+ saucisse:['Saucisses de Strasbourg · 10 pièces',350,2.49],
+ rizc:['Riz complet · Golden Sun 1 kg',1000,1.99],
+ quinoa:['Quinoa · 500 g',500,2.79],
  brocoli:['Brocolis surgelés · 1 kg',1000,1.99],
  hverts:['Haricots verts surgelés · 1 kg',1000,1.79],
  epinards:['Épinards hachés surgelés · 1 kg',1000,1.69],
@@ -1142,7 +1160,11 @@ var QUICK=[
  RC('q_pouletsoja','Poulet sauté soja, pâtes & brocolis','🍗','poulet',20,0,[['poulet',120],['pates',75],['brocoli',150],['soja',10],['huile',5]],['Ail'],['Cuis les pâtes et les brocolis ensemble (brocolis les 5 dernières min).','Fais dorer le poulet, ajoute la sauce soja et mélange le tout.']),
  RC('q_croque','Croque-monsieur à la poêle + salade','🥪','jambon',10,0,[['pain',112],['jambon',80],['emmental',25],['salade',60],['huile',4]],[],['Monte 2 croques : pain, jambon, emmental, pain.','Dore-les 3 min par face à la poêle à feu moyen, couvercle mis.','Sers avec la salade.']),
  RC('q_saumonpdt','Saumon, pommes de terre & salade','🐟','saumon',20,0,[['saumon',125],['pdt',220],['salade',60],['huile',6]],['Citron (option)'],['Cuis les pommes de terre en dés 12 min à l’eau.','Poêle le saumon 4 + 3 min.','Sers avec la salade.']),
- RC('q_dindegnocchi','Dinde & gnocchi poêlés aux champignons','🍄','dinde',20,0,[['dinde',120],['gnocchi',200],['champi',120],['huile',6]],['Ail','Persil'],['Dore les gnocchi 6 min, réserve.','Dore la dinde en lanières et les champignons 7 min.','Remets les gnocchi, mélange.'])
+ RC('q_dindegnocchi','Dinde & gnocchi poêlés aux champignons','🍄','dinde',20,0,[['dinde',120],['gnocchi',200],['champi',120],['huile',6]],['Ail','Persil'],['Dore les gnocchi 6 min, réserve.','Dore la dinde en lanières et les champignons 7 min.','Remets les gnocchi, mélange.']),
+ RC('q_carbo','Pâtes carbonara légère (œuf, lardons, parmesan)','🍝','oeuf',15,0,[['pates_b',85],['oeuf',120],['lardons',50],['parmesan',15]],['Poivre'],['Cuis les pâtes. Pendant ce temps, fais dorer les lardons à sec.','Bats les œufs avec le parmesan et du poivre.','Hors du feu, mélange pâtes chaudes + lardons + œufs : la chaleur crée la sauce (pas de crème nécessaire).']),
+ RC('q_saucisse','Saucisses, purée maison & haricots verts','🌭','saucisse',25,0,[['saucisse',100],['pdt',250],['lait',50],['hverts',150]],['Moutarde (option)'],['Cuis les pommes de terre 20 min, écrase-les avec le lait chaud.','Cuis les haricots verts 8 min.','Chauffe ou poêle les saucisses 5 min.']),
+ RC('q_quinoachevre','Salade quinoa, poulet, chèvre & tomates','🥗','poulet',20,0,[['quinoa',60],['poulet',110],['chevre',30],['tomate',120],['salade',40],['huile',8]],['Vinaigre ou citron','Miel (option)'],['Cuis le quinoa 12 min, refroidis-le.','Poêle le poulet 6-7 min, coupe-le.','Mélange avec tomates, salade et chèvre émietté, assaisonne.']),
+ RC('q_raclette','Pommes de terre au fromage, jambon & salade (raclette express)','🧀','jambon',20,0,[['pdt',250],['fromage',40],['jambon',80],['salade',60]],['Cornichons (option)'],['Cuis les pommes de terre 15-20 min à l’eau.','Coupe-les en deux, pose le fromage dessus et couvre 3 min à la poêle pour le faire fondre.','Sers avec le jambon et la salade.'])
 ];
 var REC={};RECIPES.concat(QUICK).forEach(function(r){REC[r.id]=r;});
 var BFS=[
@@ -1165,8 +1187,8 @@ var DK=['lun','mar','mer','jeu','ven','sam','dim'],DKN={lun:'Lundi',mar:'Mardi',
 /* ---------- Goûts : adaptation des recettes ---------- */
 function tasteOf(k){return (S.taste||{})[k]||0;}
 function tasteSig(){return JSON.stringify([S.taste||{},S.badRec||{}]);}
-var GRP={volaille:['poulet','dinde'],veg:['brocoli','hverts','poelee','courgette','poivron','epinards','champi','chouf','petitpois','aubergine','carotte'],cru:['tomate','concombre','carotte','salade'],fec:['rizb','pates_b','pates','semoule','pdt','patated','nouilles','gnocchi'],leg:['haricotr','haricotb','poischiche'],laitier:['fblanc','skyr','yaourt'],fruit:['banane','pomme','orange','fruitsr'],pain:['pain','tortilla'],fromage:['emmental','mozza']};
-var DROP=/^(oignon|laitcoco|mais|miel|soja|emmental|mozza|avocat|cacahuete)$/;
+var GRP={volaille:['poulet','dinde'],veg:['brocoli','hverts','poelee','courgette','poivron','epinards','champi','chouf','petitpois','aubergine','carotte'],cru:['tomate','concombre','carotte','salade'],fec:['rizb','pates_b','pates','rizc','semoule','quinoa','pdt','patated','nouilles','gnocchi'],leg:['haricotr','haricotb','poischiche'],laitier:['fblanc','skyr','yaourt'],fruit:['banane','pomme','orange','fruitsr'],pain:['pain','tortilla'],fromage:['emmental','fromage','mozza','parmesan','chevre']};
+var DROP=/^(oignon|laitcoco|mais|miel|soja|emmental|mozza|avocat|cacahuete|creme|lardons|beurre|parmesan|fromage|chevre)$/;
 function grpOf(k,ctx){if(ctx&&ctx.indexOf('salade')>=0||ctx&&ctx.indexOf('concombre')>=0||ctx&&ctx.indexOf('tomate')>=0){if(GRP.cru.indexOf(k)>=0)return 'cru';}for(var g in GRP)if(GRP[g].indexOf(k)>=0)return g;return null;}
 function bestSub(k,used){var g=grpOf(k,used);if(!g)return null;var c=GRP[g].filter(function(x){return x!==k&&tasteOf(x)>=0&&used.indexOf(x)<0;});c.sort(function(a,b){return tasteOf(b)-tasteOf(a);});return c[0]||null;}
 function adapt(rc){
@@ -1180,7 +1202,7 @@ function adapt(rc){
 }
 function recOK(rc){return !(S.badRec||{})[rc.id]&&adapt(rc).ok;}
 function likeScore(rc){var s=0;adapt(rc).ing.forEach(function(x){if(tasteOf(x[0])>0)s++;});return s;}
-function shortName(k){var SH={poulet:'poulet',dinde:'dinde',boeufh:'steak haché',oeuf:'œufs',thon:'thon',saumon:'saumon',crevettes:'crevettes',jambon:'jambon',sardines:'sardines',tofu:'tofu',rizb:'riz',pates:'pâtes',pates_b:'pâtes',semoule:'semoule',pdt:'pommes de terre',patated:'patate douce',nouilles:'nouilles',gnocchi:'gnocchi',poelee:'légumes',fblanc:'fromage blanc'};return SH[k]||ING[k][0].replace(/\s*\(.*\)/,'').toLowerCase();}
+function shortName(k){var SH={poulet:'poulet',dinde:'dinde',boeufh:'steak haché',oeuf:'œufs',thon:'thon',saumon:'saumon',crevettes:'crevettes',jambon:'jambon',sardines:'sardines',tofu:'tofu',rizb:'riz',pates:'pâtes',pates_b:'pâtes',semoule:'semoule',pdt:'pommes de terre',patated:'patate douce',nouilles:'nouilles',gnocchi:'gnocchi',poelee:'légumes',fblanc:'fromage blanc',emmental:'fromage râpé',fromage:'fromage',rizc:'riz complet',creme:'crème fraîche'};return SH[k]||ING[k][0].replace(/\s*\(.*\)/,'').toLowerCase();}
 function swapTxt(sw){if(!sw||!sw.length)return '';return '🔁 Adapté à tes goûts : '+sw.map(function(s){return s[1]?shortName(s[0])+' → '+shortName(s[1]):'sans '+shortName(s[0]);}).join(', ');}
 
 function npS(){if(!S.np||typeof S.np!=='object')S.np={n:2,weeks:{},we:'plan'};if(!S.np.weeks)S.np.weeks={};if(!S.np.n)S.np.n=2;if(!S.np.we)S.np.we='plan';return S.np;}
@@ -1205,9 +1227,9 @@ function extraK(){return avgOf(SNACKS,'kcal')+avgOf(BFS,'kcal');}
 function extraP(){return avgOf(SNACKS,'p')+avgOf(BFS,'p');}
 function rnd(g){return g<30?Math.round(g):g<120?Math.round(g/5)*5:Math.round(g/10)*10;}
 var PROTK=/^(poulet|boeufh|oeuf|thon|dinde|jambon|saumon|crevettes|sardines|tofu)$/;
-function isProtIng(k){return PROTK.test(k);}
+function isProtIng(k){return PROTK.test(k)||CATOF[k]==='prot';}
 function rIng(rc){
- var base=adapt(rc).ing,K=num(S.goals.kcal)||1900,P=num(S.goals.p)||96,M=(K-extraK())/2,Pm=(P*1.1-extraP())/2;
+ var base=adapt(rc).ing;if(rc.snack)return base;var K=num(S.goals.kcal)||1900,P=num(S.goals.p)||96,M=(K-extraK())/2,Pm=(P*1.1-extraP())/2;
  var FIX=/^(soja|miel|emmental|mozza)$/,LIM=/^(poischiche|haricotr|haricotb|lentilles|mais|laitcoco|fblanc|avocat)$/;
  function grp(x){return isProtIng(x[0])?'p':FIX.test(x[0])?'x':LIM.test(x[0])?'l':'o';}
  var G={p:[],x:[],l:[],o:[]};base.forEach(function(x){G[grp(x)].push(x);});
@@ -1290,6 +1312,7 @@ function vCourses(){
  h+='<div class="card hero"><div class="row sp"><div><div class="sub">🛒 Ticket Lidl estimé</div><div class="big-n" style="font-size:30px">'+eur(sh.pay)+'</div></div><button class="btn sm" data-act="copyShop">📋 Copier</button></div><div class="sub" style="margin-top:4px">Reste à acheter : <b style="color:var(--tx)">'+eur(sh.payLeft)+'</b> · ce que tu manges vraiment : ≈ '+eur(sh.used)+' (le reste des paquets te servira la semaine suivante)</div><div style="margin-top:8px">'+bar(done,wkKeys.length||1,'var(--acc)')+'</div><div class="sub" style="margin-top:4px">'+done+' / '+wkKeys.length+' articles dans le caddie · 🥩 ≈ '+fmt(Math.round(sh.prot))+' g de protéines dans ce panier</div></div>';
  RAYONS.forEach(function(ry,ri){var ks=keys.filter(function(k){return ING[k][6]===ri;}).sort(function(a,b){return ING[a][0].localeCompare(ING[b][0]);});if(!ks.length)return;
   h+='<h3>'+ry+'</h3><div class="card list shop" style="padding:4px 14px">'+ks.map(function(k){var on=!!w.checked[k],L=LIDL[k],n=packsOf(k,sh.agg[k]),I=ING[k];return '<div class="it'+(on?' on':'')+'" data-act="npChk" data-k="'+k+'"><span class="box">'+(on?'✓':'')+'</span><span class="grow"><span class="nm" style="font-weight:600">'+esc(L[0])+'</span><span class="sub" style="display:block;font-size:12px">Besoin : '+fmtQtyTxt(k,sh.agg[k])+' · '+r1(I[2]).toString().replace('.',',')+' g prot. / 100 g</span></span><span style="text-align:right;white-space:nowrap"><b>× '+n+'</b><span class="sub" style="display:block;font-size:12px">'+eur(n*L[2])+'</span></span></div>';}).join('')+'</div>';});
+ var oth=Object.keys(sh.agg).filter(function(k){return !LIDL[k]&&ING[k];});if(oth.length)h+='<h3>🧺 Autres articles (prix non connu)</h3><div class="card list shop" style="padding:4px 14px">'+oth.map(function(k){var on=!!w.checked[k];return '<div class="it'+(on?' on':'')+'" data-act="npChk" data-k="'+k+'"><span class="box">'+(on?'✓':'')+'</span><span class="grow nm">'+esc(ING[k][0])+'</span><span>'+fmtQtyTxt(k,sh.agg[k])+'</span></div>';}).join('')+'</div>';
  if(sh.stock)h+='<div class="sub" style="margin:-4px 0 10px">🧂 Placard : ≈ '+eur(sh.stock)+' à acheter une seule fois (ça dure plusieurs semaines) — non compté dans le ticket.</div>';
  h+='<div class="card"><div class="sub">🌶️ Épices utiles (rayon épicerie, ~1 € le pot) : '+esc(sh.extras.join(', '))+', sel, poivre.</div><div class="sub" style="margin-top:6px">💡 Prix indicatifs relevés dans les catalogues Lidl France : ils changent selon le magasin et les promos. Coche « déjà à la maison » pour ce que tu as encore. L’appli Lidl Plus donne souvent des coupons sur le poulet, les œufs et le fromage blanc.</div>'+(f!=null?'<div class="sub" style="margin-top:6px">Les repas du week-end sont seulement dans « Toute la semaine ».</div>':'')+'</div>';
  return h;
@@ -1297,11 +1320,204 @@ function vCourses(){
 function shopText(){var wk=curWk(),w=npWeek(wk),f=UI.npf==null?null:UI.npf,sh=shopItems(wk,w,f),d=parseD(wk),out='🛒 Courses Lidl – semaine du '+d.getDate()+' '+MSH[d.getMonth()]+'\n';
  RAYONS.forEach(function(ry,ri){var ks=Object.keys(sh.agg).filter(function(k){return LIDL[k]&&ING[k][6]===ri;});if(!ks.length)return;out+='\n'+ry+'\n';ks.forEach(function(k){var n=packsOf(k,sh.agg[k]);out+=(w.checked[k]?'☑ ':'☐ ')+LIDL[k][0]+' × '+n+' ('+eur(n*LIDL[k][2])+')\n';});});
  out+='\nTotal estimé : '+eur(sh.pay)+(sh.stock?' (+ placard '+eur(sh.stock)+')':'')+'\nÉpices : '+sh.extras.join(', ');return out;}
+/* ---------- Base d'aliments étendue (valeurs moyennes pour 100 g : kcal, prot, gluc, lip, fibres) ---------- */
+var XFRAW='\
+dindetr|Blanc de dinde (tranches)|105|21|1|1.5|0|prot|jambon de dinde\n\
+pilons|Pilons de poulet|175|18|0|11|0|prot|cuisse poulet\n\
+cuisse|Cuisses de poulet|190|17|0|13|0|prot|\n\
+porc|Filet mignon de porc|120|21|0|4|0|prot|porc\n\
+cotporc|Côtes de porc|210|19|0|15|0|prot|cotelette porc\n\
+roti|Rôti de porc|150|22|0|7|0|prot|porc\n\
+veau|Escalope de veau|110|22|0|2|0|prot|\n\
+agneau|Agneau (gigot, côtelettes)|230|18|0|17|0|prot|mouton\n\
+steak|Steak de bœuf|140|22|0|5|0|prot|bifteck rumsteck boeuf\n\
+entrecote|Entrecôte|220|20|0|15|0|prot|boeuf\n\
+bourgui|Bœuf à braiser (bourguignon)|150|21|0|7|0|prot|boeuf\n\
+foie|Foies de volaille|125|19|1|5|0|prot|\n\
+magret|Magret de canard|200|19|0|13|0|prot|canard\n\
+lapin|Lapin|135|21|0|5|0|prot|\n\
+jamcru|Jambon cru|240|26|0|15|0|prot|jambon serrano parme\n\
+bacon|Bacon|180|17|1|12|0|prot|\n\
+chorizo|Chorizo|450|24|2|38|0|prot|\n\
+saucisson|Saucisson sec|420|26|2|34|0|prot|salami\n\
+merguez|Merguez|300|15|1|26|0|prot|\n\
+cordon|Cordon bleu|230|14|14|13|1|prot|\n\
+nuggets|Nuggets de poulet|250|15|18|13|1|prot|\n\
+cabillaud|Cabillaud|80|18|0|0.7|0|prot|poisson blanc dos de cabillaud\n\
+colin|Colin / lieu|85|19|0|1|0|prot|poisson blanc merlu\n\
+pane|Poisson pané|210|12|18|10|1|prot|\n\
+truite|Truite|140|20|0|6|0|prot|\n\
+saumonf|Saumon fumé|180|22|0|10|0|prot|\n\
+maquereau|Maquereau|200|19|0|14|0|prot|\n\
+hareng|Hareng|220|18|0|16|0|prot|\n\
+thonfrais|Thon frais|130|25|0|3|0|prot|\n\
+surimi|Surimi|100|8|14|1|0|prot|batonnet crabe\n\
+moules|Moules|85|12|4|2|0|prot|\n\
+calamars|Calamars|90|16|3|1.5|0|prot|encornet seiche\n\
+tofufume|Tofu fumé|160|17|2|9|1|prot|\n\
+tempeh|Tempeh|190|19|9|11|5|prot|\n\
+seitan|Seitan|140|25|5|2|1|prot|\n\
+steakveg|Steak végétal|200|17|8|11|4|prot|galette vegetale vegetarien\n\
+falafel|Falafels|330|13|31|18|6|prot|\n\
+pst|Protéines de soja texturées (sèches)|330|50|20|1|15|prot|pst soja\n\
+blancoeuf|Blancs d’œufs|50|11|0.7|0.2|0|prot|blanc d oeuf\n\
+boulgour|Boulgour|350|12|70|1.5|8|fec|\n\
+couscous|Couscous (semoule de blé)|360|12|73|1.5|4|fec|\n\
+polenta|Polenta|360|8|78|1.5|4|fec|\n\
+rizrond|Riz rond|350|7|78|0.6|1|fec|riz dessert\n\
+arborio|Riz à risotto|350|7|79|0.6|1|fec|risotto arborio\n\
+pfraiche|Pâtes fraîches|280|11|53|3|2|fec|tagliatelle fraiches\n\
+ravioli|Raviolis / tortellinis|250|10|35|8|2|fec|ravioli tortellini\n\
+lasagnef|Feuilles de lasagne|350|12|72|1.5|3|fec|lasagne\n\
+vermicelle|Vermicelles de riz|360|6|82|0.5|1|fec|nouilles de riz\n\
+udon|Nouilles udon|130|3|27|0.5|1|fec|\n\
+ble|Blé précuit (type Ebly)|350|12|70|2|5|fec|ebly\n\
+sarrasin|Sarrasin|340|13|71|3|10|fec|kasha\n\
+millet|Millet|375|11|73|4|8|fec|\n\
+orge|Orge perlé|350|10|73|1.2|15|fec|\n\
+baguette|Baguette|270|9|56|1.5|3|fec|pain\n\
+paincomplet|Pain complet|240|9|43|3|7|fec|\n\
+pita|Pain pita|275|9|56|1.2|2|fec|\n\
+painburger|Pain à burger|280|9|50|5|2|fec|bun\n\
+biscotte|Biscottes|400|11|74|6|5|fec|\n\
+galriz|Galettes de riz soufflé|385|8|81|3|3|fec|\n\
+grenaille|Pommes de terre grenaille|80|2|17|0.1|2|fec|\n\
+frites|Frites surgelées|150|2.5|24|5|2|fec|\n\
+puree|Purée en flocons|350|8|75|1|6|fec|\n\
+chataigne|Châtaignes|195|2.5|42|1.5|7|fec|marron\n\
+plantain|Bananes plantain|120|1.3|32|0.4|2|fec|\n\
+igname|Igname / manioc|120|1.5|28|0.2|4|fec|manioc\n\
+muesli|Muesli|370|10|62|7|8|fec|\n\
+granola|Granola|450|9|62|18|7|fec|\n\
+cornfl|Céréales type corn flakes|375|7|84|1|3|fec|cereales\n\
+lentv|Lentilles vertes|330|24|48|1.5|17|leg|\n\
+flageolet|Flageolets (conserve)|95|6|13|0.5|6|leg|\n\
+feves|Fèves|90|7|12|0.6|5|leg|\n\
+poiscasses|Pois cassés|340|24|50|1.5|15|leg|\n\
+edamame|Edamame|120|11|9|5|5|leg|soja\n\
+haricotnoir|Haricots noirs (conserve)|105|7|15|0.5|7|leg|\n\
+hplats|Haricots plats|30|2|5|0.2|3|veg|\n\
+fenouil|Fenouil|30|1.2|5|0.2|3|veg|\n\
+poireau|Poireaux|30|1.5|5|0.3|2.5|veg|\n\
+celeri|Céleri|20|1|3|0.2|2|veg|celeri branche celeri rave\n\
+betterave|Betterave cuite|45|1.7|8.5|0.1|2.5|cru|\n\
+potiron|Potiron / potimarron|35|1.1|7|0.1|2|veg|courge potimarron citrouille\n\
+butternut|Butternut|45|1|10|0.1|2|veg|courge\n\
+chouvert|Chou vert|30|2|4|0.2|3|veg|chou\n\
+chourouge|Chou rouge|30|1.5|5|0.2|2.5|cru|\n\
+choubx|Choux de Bruxelles|45|3.4|5|0.3|4|veg|\n\
+pakchoi|Chou chinois / pak choï|15|1.5|2|0.2|1|veg|bok choy\n\
+asperge|Asperges|25|2.5|2.5|0.2|2|veg|\n\
+artichaut|Artichauts|50|3|6|0.2|5|veg|\n\
+navet|Navets|25|0.9|5|0.1|2|veg|\n\
+panais|Panais|75|1.2|17|0.3|5|veg|\n\
+blette|Blettes|20|1.8|2.5|0.2|1.5|veg|\n\
+epinardf|Épinards frais|23|2.9|3.6|0.4|2.2|veg|pousses epinards\n\
+haricotvf|Haricots verts frais|31|1.8|7|0.2|2.7|veg|\n\
+ratatouille|Ratatouille (conserve)|60|1.3|6|3|2|veg|\n\
+poeleeasie|Poêlée asiatique (surgelée)|45|2|6|1|2.5|veg|wok legumes\n\
+oignonr|Oignons rouges|40|1.1|9|0.1|1.7|veg|\n\
+echalote|Échalotes|70|2.5|15|0.1|3|veg|\n\
+roquette|Roquette|25|2.6|2|0.7|1.6|cru|\n\
+mache|Mâche|20|2|2|0.4|1.5|cru|\n\
+tomcerise|Tomates cerises|20|0.9|3.9|0.2|1.2|cru|\n\
+radis|Radis|15|0.7|2|0.1|1.6|cru|\n\
+carrape|Carottes râpées|40|0.9|8|0.2|2.8|cru|\n\
+endive|Endives|17|1|2|0.1|1|cru|\n\
+olives|Olives|145|1|4|15|3|autre|\n\
+cornichon|Cornichons|15|0.5|2|0.2|1|cru|\n\
+camembert|Camembert|270|20|0.5|21|0|fromage|\n\
+brie|Brie|330|20|0.5|28|0|fromage|\n\
+bleu|Bleu / roquefort|360|20|1|31|0|fromage|roquefort\n\
+cheddar|Cheddar|400|25|1|33|0|fromage|\n\
+gouda|Gouda|360|25|0|28|0|fromage|edam\n\
+reblochon|Reblochon|330|20|0|28|0|fromage|\n\
+feta|Feta|265|14|4|21|0|fromage|\n\
+ricotta|Ricotta|150|10|3|11|0|fromage|\n\
+mascarpone|Mascarpone|430|5|4|44|0|fromage|\n\
+halloumi|Halloumi|320|22|2|25|0|fromage|\n\
+fromfrais|Fromage frais à tartiner|250|7|3|23|0|fromage|saint moret philadelphia carre frais\n\
+portion|Fromage fondu en portions|240|11|7|18|0|fromage|vache qui rit kiri babybel\n\
+cottage|Cottage cheese|100|11|3|4.5|0|laitier|\n\
+ygrec|Yaourt grec|130|5|4|10|0|laitier|yaourt a la grecque\n\
+yfruits|Yaourt aux fruits|95|3.5|14|2.5|0|laitier|\n\
+psuisse|Petits suisses|110|7|4|7|0|laitier|\n\
+faisselle|Faisselle|80|6|4|4|0|laitier|\n\
+kefir|Kéfir|60|3.5|4|3|0|laitier|\n\
+laitentier|Lait entier|65|3.3|4.8|3.6|0|laitier|\n\
+laitecreme|Lait écrémé|35|3.4|5|0.1|0|laitier|\n\
+laitavoine|Boisson à l’avoine|45|0.5|7|1.5|0.8|laitier|lait d avoine\n\
+laitsoja|Boisson au soja|40|3.3|2|2|0.5|laitier|lait de soja\n\
+laitamande|Boisson à l’amande|15|0.5|0.5|1.1|0.3|laitier|lait d amande\n\
+ysoja|Yaourt au soja|50|4|2|2.5|1|laitier|\n\
+cremeliq|Crème liquide légère|150|2.5|4|14|0|autre|creme liquide\n\
+whey|Whey protéine (poudre)|380|78|6|5|0|autre|proteine en poudre\n\
+fraise|Fraises|32|0.7|7.7|0.3|2|fruit|\n\
+framboise|Framboises|50|1.2|12|0.7|6|fruit|\n\
+myrtille|Myrtilles|57|0.7|14|0.3|2.4|fruit|\n\
+kiwi|Kiwis|61|1.1|15|0.5|3|fruit|\n\
+mangue|Mangue|60|0.8|15|0.4|1.6|fruit|\n\
+ananas|Ananas|50|0.5|13|0.1|1.4|fruit|\n\
+poire|Poires|57|0.4|15|0.1|3|fruit|\n\
+peche|Pêches / nectarines|40|0.9|10|0.3|1.5|fruit|nectarine\n\
+abricot|Abricots|48|1.4|11|0.4|2|fruit|\n\
+prune|Prunes|46|0.7|11|0.3|1.4|fruit|\n\
+raisin|Raisin|70|0.7|18|0.2|0.9|fruit|\n\
+cerise|Cerises|63|1|16|0.2|2|fruit|\n\
+melon|Melon|34|0.8|8|0.2|0.9|fruit|\n\
+pasteque|Pastèque|30|0.6|8|0.2|0.4|fruit|\n\
+clementine|Clémentines / mandarines|47|0.8|12|0.2|1.7|fruit|mandarine\n\
+pamplemousse|Pamplemousse|42|0.8|11|0.1|1.6|fruit|\n\
+citron|Citrons|29|1.1|9|0.3|2.8|fruit|\n\
+dattes|Dattes|280|2.5|75|0.4|8|fruit|\n\
+raisinsec|Raisins secs|300|3|79|0.5|4|fruit|\n\
+abricotsec|Abricots secs|240|3.4|63|0.5|7|fruit|\n\
+compote|Compote sans sucre ajouté|55|0.3|13|0.1|1.5|fruit|\n\
+amandes|Amandes|580|21|22|50|12.5|autre|\n\
+noix|Noix|650|15|14|65|7|autre|cerneaux\n\
+noisette|Noisettes|630|15|17|61|10|autre|\n\
+cajou|Noix de cajou|550|18|30|44|3|autre|\n\
+cacahuetes|Cacahuètes|570|26|16|49|8|autre|arachides\n\
+chia|Graines de chia|490|17|42|31|34|autre|\n\
+lin|Graines de lin|530|18|29|42|27|autre|\n\
+courge|Graines de courge|560|30|11|49|6|autre|\n\
+chocnoir|Chocolat noir|580|8|46|42|11|autre|chocolat\n\
+choclait|Chocolat au lait|540|7|57|31|2|autre|chocolat\n\
+tartiner|Pâte à tartiner au chocolat|540|6|57|31|3|autre|nutella\n\
+confiture|Confiture|250|0.4|62|0.1|1|autre|\n\
+sirop|Sirop d’érable|260|0|67|0|0|autre|\n\
+houmous|Houmous|300|8|14|24|6|autre|hummus\n\
+pesto|Pesto|450|5|6|45|2|autre|\n\
+saucetom|Sauce tomate cuisinée|60|1.5|8|2.5|1.5|autre|sauce bolognaise\n\
+biscuits|Biscuits|470|6|68|19|2|autre|gateaux\n\
+barrepro|Barre protéinée|350|30|35|10|5|autre|\n\
+cremedess|Crème dessert|120|3|19|3|0|autre|danette\n\
+glace|Glace|200|3.5|24|10|0|autre|creme glacee\n\
+pizza|Pizza|250|10|30|10|2|autre|\n\
+quiche|Quiche|250|9|18|16|1|autre|\n\
+lasagnes|Lasagnes cuisinées|140|7|12|7|1|autre|\n\
+soupe|Soupe de légumes|35|1|5|1|1.5|autre|veloute\n\
+sushi|Sushis / makis|150|6|28|1.5|1|autre|maki\n\
+sandwich|Sandwich|240|11|28|9|2|autre|\n\
+salcomp|Salade composée (traiteur)|150|6|14|8|2|autre|taboule';
+var XFOOD={},CATOF={};XFRAW.split('\n').forEach(function(l){var a=l.split('|');if(a.length<8)return;XFOOD[a[0]]={id:a[0],n:a[1],kcal:+a[2],p:+a[3],c:+a[4],f:+a[5],fib:+a[6],cat:a[7],syn:a[8]||''};});
+var CATRAY={prot:4,fec:2,leg:3,veg:0,cru:0,fruit:0,fromage:5,laitier:5,autre:7};
+var CATN={prot:'🍗 Protéine (viande, poisson, œufs, tofu…)',fec:'🍚 Féculent (pâtes, riz, pain…)',leg:'🫘 Légumineuse',veg:'🥦 Légume à cuire',cru:'🥗 Crudité / salade',fruit:'🍎 Fruit',fromage:'🧀 Fromage',laitier:'🥛 Produit laitier',autre:'🍫 Autre'};
+var CATDEF={prot:[150,22,1,6,0],fec:[350,10,70,2,4],leg:[110,7,15,0.5,6],veg:[30,2,5,0.3,2.5],cru:[20,1,3.5,0.2,1.5],fruit:[55,0.7,13,0.3,2],fromage:[330,22,1,27,0],laitier:[70,5,6,3,0],autre:[300,8,40,12,3]};
+var CATGRP={fec:'fec',leg:'leg',veg:'veg',cru:'cru',fruit:'fruit',fromage:'fromage',laitier:'laitier'};
+function regIng(key,o){ING[key]=[o.n,o.kcal,o.p,o.c,o.f,o.fib||0,CATRAY[o.cat]==null?7:CATRAY[o.cat]];CATOF[key]=o.cat;var g=CATGRP[o.cat];if(g&&GRP[g]&&GRP[g].indexOf(key)<0)GRP[g].push(key);}
+function ensureCustom(){var c=S&&S.customIng;if(!c)return;Object.keys(c).forEach(function(k){if(!ING[k]||CATOF[k]!==c[k].cat)regIng(k,c[k]);});}
+function matXF(id){var x=XFOOD[id];if(!x)return null;var key='x_'+id;S.customIng=S.customIng||{};if(!S.customIng[key])S.customIng[key]={n:x.n,kcal:x.kcal,p:x.p,c:x.c,f:x.f,fib:x.fib,cat:x.cat};regIng(key,S.customIng[key]);return key;}
+function resolveK(k){if(String(k).indexOf('xf:')===0)return matXF(k.slice(3));return k;}
+function catKeys(cat){return Object.keys(CATOF).filter(function(k){return CATOF[k]===cat&&ING[k];});}
+function custSheet(name,mode){UI.custMode=mode||'fr';sheet('<h2>➕ Nouvel aliment</h2><div class="sub">Il sera ajouté à ta liste : frigo, goûts et idées de plats.</div><label class="f" style="margin-top:10px"><span>Nom</span><input id="cu_n" value="'+esc(name||'')+'" placeholder="ex : boulgour, tofu fumé…"></label><label class="f"><span>C’est plutôt…</span><select id="cu_c">'+Object.keys(CATN).map(function(c){return '<option value="'+c+'">'+CATN[c]+'</option>';}).join('')+'</select></label><div class="sub" style="margin:8px 0 4px">Valeurs pour 100 g (facultatif : regarde l’étiquette, sinon je mets une moyenne)</div><div class="grid2"><label class="f"><span>kcal</span><input id="cu_k" inputmode="decimal"></label><label class="f"><span>Protéines (g)</span><input id="cu_p" inputmode="decimal"></label><label class="f"><span>Glucides (g)</span><input id="cu_g" inputmode="decimal"></label><label class="f"><span>Lipides (g)</span><input id="cu_l" inputmode="decimal"></label></div><button class="btn pri blk" data-act="custSave" style="margin-top:10px">Ajouter</button><button class="btn blk" data-act="closeSheet" style="margin-top:8px">Annuler</button>');}
+
 /* ---------- Onglet Mes goûts ---------- */
 var NOTASTE=/^(huile|soja)$/;
 function vGouts(){
  var ok=RECIPES.filter(recOK).length,qk=QUICK.filter(recOK).length,nl=0,nd=0;Object.keys(S.taste||{}).forEach(function(k){if(S.taste[k]>0)nl++;else nd++;});
  var h='<div class="card hero"><h2 style="margin-bottom:4px">❤️ Ce que tu aimes</h2><div class="sub">Pour chaque aliment : <b>❤️ j’adore</b> (proposé plus souvent), <b>👌 ça va</b>, <b>🚫 je n’aime pas</b> (plus jamais proposé). Les menus, le meal prep, les courses Lidl et le frigo s’adaptent tout de suite.</div><div class="row sp" style="margin-top:10px"><span class="pill">❤️ '+nl+' · 🚫 '+nd+'</span><span class="pill acc">'+ok+' plats meal prep · '+qk+' plats rapides</span></div>'+(ok<4?'<div class="nudge">Il reste peu de plats avec tes goûts : les menus vont se répéter. Essaie de passer quelques 🚫 en 👌.</div>':'')+'</div>';
+ h+='<div class="card" style="padding:12px"><input data-in="gq" id="gq" autocomplete="off" placeholder="🔍 Cherche ou ajoute un aliment (ex : avocat, boulgour…)" value="'+esc(UI.gq||'')+'"><div id="gres">'+gRes()+'</div></div>';
  h+='<div class="sub" style="margin:0 2px 4px">💡 Si tu n’aimes pas un légume ou un féculent, il est remplacé par un autre que tu aimes. Si c’est la viande ou le poisson principal, le plat est retiré.</div>';
  RAYONS.forEach(function(ry,ri){var ks=Object.keys(ING).filter(function(k){return ING[k][6]===ri&&!NOTASTE.test(k);}).sort(function(a,b){return ING[a][0].localeCompare(ING[b][0]);});if(!ks.length)return;
   h+='<h3>'+ry.replace(' (dure plusieurs semaines)','')+'</h3><div class="card" style="padding:4px 14px">'+ks.map(function(k){var t=tasteOf(k);return '<div class="trow"><span class="nm">'+esc(ING[k][0].replace(/\s*\((surgelés?|surgelée|conserve)\)/,''))+'<span class="sub" style="display:block;font-size:11px">'+r1(ING[k][2]).toString().replace('.',',')+' g prot. / 100 g</span></span><span class="tb"><button class="'+(t>0?'on':'')+'" data-act="taste" data-k="'+k+'" data-v="1">❤️</button><button class="'+(t===0?'on':'')+'" data-act="taste" data-k="'+k+'" data-v="0">👌</button><button class="'+(t<0?'on':'')+'" data-act="taste" data-k="'+k+'" data-v="-1">🚫</button></span></div>';}).join('')+'</div>';});
@@ -1311,27 +1527,35 @@ function vGouts(){
  return h;
 }
 
+function gRes(){var v=(UI.gq||'').trim();if(!v)return '';var m=frMatch(v,true).slice(0,8);
+ return (m.length?'<div style="margin-top:6px">'+m.map(function(k){var t=k.indexOf('xf:')===0?0:tasteOf(k);return '<div class="trow"><span class="nm">'+esc(kName(k))+'</span><span class="tb"><button class="'+(t>0?'on':'')+'" data-act="taste" data-k="'+k+'" data-v="1">❤️</button><button class="'+(t===0?'on':'')+'" data-act="taste" data-k="'+k+'" data-v="0">👌</button><button class="'+(t<0?'on':'')+'" data-act="taste" data-k="'+k+'" data-v="-1">🚫</button></span></div>';}).join('')+'</div>':'<div class="sub" style="margin-top:6px">Pas trouvé.</div>')+'<button class="btn sm" data-act="custNew" data-v="'+esc(v)+'" style="margin-top:8px">➕ Créer « '+esc(v)+' »</button>';}
+function gqIn(el){UI.gq=el.value;var r=$('#gres');if(r)r.innerHTML=gRes();}
 /* ---------- Onglet Frigo ---------- */
 var GEN={},NOCORE=/^(huile|soja|miel)$/;
-var PROT_ORDER=['poulet','dinde','boeufh','oeuf','thon','saumon','crevettes','jambon','sardines','tofu'];
+function pG(k){return Math.max(60,Math.min(180,Math.round(2500/Math.max(5,ING[k][2])/10)*10));}
+function fG(k){return Math.max(40,Math.min(350,Math.round(25000/Math.max(40,ING[k][1])/5)*5));}
+var PROT_ORDER=['poulet','dinde','boeufh','oeuf','thon','saumon','crevettes','jambon','sardines','tofu','saucisse'];
 function frHas(k){return !!(S.fridge||{})[k];}
 function frPick(list,n){var a=list.filter(function(k){return frHas(k)&&tasteOf(k)>=0;});a.sort(function(x,y){return tasteOf(y)-tasteOf(x);});return a.slice(0,n||1);}
 function genFridge(){
  GEN={};var out=[];
- var prot=frPick(PROT_ORDER,2),fec=frPick(GRP.fec,1)[0],veg=frPick(GRP.veg.concat(['tomate']),2),cru=frPick(GRP.cru.concat(['avocat']),2),leg=frPick(GRP.leg,1)[0];
+ var prot=frPick(PROT_ORDER.concat(catKeys('prot')),2),fec=frPick(GRP.fec,1)[0],veg=frPick(GRP.veg.concat(['tomate']),2),cru=frPick(GRP.cru.concat(['avocat']),2),leg=frPick(GRP.leg,1)[0];
  function add(id,name,emo,ing,steps,ex){var rc=RC(id,name,emo,'gen',15,0,ing,ex||['Sel, poivre, épices au choix'],steps);rc.gen=1;GEN[id]=rc;out.push(rc);}
  var p=prot[0];
  if(p&&fec&&veg.length&&p!=='sardines'){var pg=p==='oeuf'?120:p==='jambon'?80:120,cooked=/^(thon|jambon|crevettes)$/.test(p);
-  add('g_poelee','Poêlée express : '+shortName(p)+', '+shortName(fec)+' & '+veg.map(shortName).join(', '),'🍳',[[p,pg],[fec,fec==='pdt'?220:fec==='patated'?230:fec==='gnocchi'?200:70]].concat(veg.map(function(v,i){return [v,i?100:150];})).concat([['huile',6]]),
+  add('g_poelee','Poêlée express : '+shortName(p)+', '+shortName(fec)+' & '+veg.map(shortName).join(', '),'🍳',[[p,pG(p)],[fec,fG(fec)]].concat(veg.map(function(v,i){return [v,i?100:150];})).concat([['huile',6]]),
    ['Cuis le féculent ('+shortName(fec)+') à l’eau ou à la poêle selon le paquet.',p==='oeuf'?'Fais revenir les légumes 6-8 min, pousse-les sur le côté et brouille les œufs.':cooked?'Fais revenir les légumes 6-8 min, ajoute le '+shortName(p)+' à la fin juste pour le chauffer.':'Fais dorer le '+shortName(p)+' en morceaux 6-7 min, puis ajoute les légumes 6 min.','Mélange avec le féculent, assaisonne et sers.']);}
- if(frHas('oeuf')&&tasteOf('oeuf')>=0&&veg.length){var ing=[['oeuf',180]].concat(veg.map(function(v){return [v,100];}));if(frHas('emmental')&&tasteOf('emmental')>=0)ing.push(['emmental',15]);if(frHas('pain')&&tasteOf('pain')>=0)ing.push(['pain',56]);ing.push(['huile',5]);
+ if(frHas('oeuf')&&tasteOf('oeuf')>=0&&veg.length){var ing=[['oeuf',180]].concat(veg.map(function(v){return [v,100];}));var chz=frPick(['emmental','fromage','chevre','parmesan','mozza'].concat(catKeys('fromage')),1)[0];if(chz)ing.push([chz,20]);if(frHas('pain')&&tasteOf('pain')>=0)ing.push(['pain',56]);ing.push(['huile',5]);
   add('g_omelette','Omelette aux restes : '+veg.map(shortName).join(' & '),'🥚',ing,['Coupe les légumes en petits morceaux et fais-les revenir 6 min.','Verse les 3 œufs battus (et le fromage si tu en as).','Cuis 3-4 min à feu doux, plie l’omelette.'+(ing.some(function(x){return x[0]==='pain';})?' Sers avec le pain.':'')]);}
- var bread=frPick(['tortilla','pain'],1)[0],fp=frPick(['thon','jambon','poulet','oeuf','saumon','sardines','dinde'],1)[0];
- if(bread&&fp){var ing2=[[bread,bread==='pain'?84:120],[fp,fp==='oeuf'?120:fp==='jambon'?80:100]],sauce=frPick(GRP.laitier,1)[0];if(sauce)ing2.push([sauce,50]);cru.forEach(function(c){ing2.push([c,60]);});
+ var bread=frPick(['tortilla','pain'],1)[0],fp=frPick(['thon','jambon','poulet','oeuf','saumon','sardines','dinde'].concat(catKeys('prot')),1)[0];
+ if(bread&&fp){var ing2=[[bread,bread==='pain'?84:120],[fp,pG(fp)]],sauce=frPick(GRP.laitier,1)[0];if(sauce)ing2.push([sauce,50]);cru.forEach(function(c){ing2.push([c,60]);});
   add('g_wrap',(bread==='pain'?'Tartines':'Wraps')+' express : '+shortName(fp)+(cru.length?' & crudités':''),'🌯',ing2,[(/^(poulet|dinde|oeuf)$/.test(fp)?'Cuis le '+shortName(fp)+' (poêle ou œufs durs 10 min). ':'')+(sauce?'Mélange le '+shortName(fp)+' avec le '+shortName(sauce)+', sel, poivre.':'Émiette ou coupe le '+shortName(fp)+'.'),'Garnis '+(bread==='pain'?'les tartines':'les wraps')+(cru.length?' avec '+cru.map(shortName).join(', '):'')+' et '+(bread==='pain'?'déguste':'roule-les')+'.']);}
- var base=fec&&/^(rizb|pates|pates_b|semoule|pdt)$/.test(fec)?fec:leg;
- if(p&&cru.length&&base){var ing3=[[p,p==='oeuf'?120:100],[base,base===leg?150:base==='pdt'?200:60]].concat(cru.map(function(c){return [c,c==='avocat'?70:100];})).concat([['huile',8]]);
+ var base=fec&&(/^(rizb|pates|pates_b|semoule|pdt|rizc|quinoa)$/.test(fec)||CATOF[fec]==='fec')?fec:leg;
+ if(p&&cru.length&&base){var ing3=[[p,pG(p)],[base,base===leg?150:Math.round(fG(base)*0.8)]].concat(cru.map(function(c){return [c,c==='avocat'?70:100];})).concat([['huile',8]]);
   add('g_salade','Salade complète : '+shortName(p)+', '+shortName(base)+' & '+cru.map(shortName).join(', '),'🥗',ing3,[base===leg?'Égoutte et rince les '+shortName(base)+'.':'Cuis le '+shortName(base)+' et laisse refroidir.',/^(poulet|dinde|boeufh|saumon|tofu)$/.test(p)?'Fais cuire le '+shortName(p)+' à la poêle et coupe-le.':p==='oeuf'?'Fais des œufs durs (10 min).':'Égoutte le '+shortName(p)+'.','Coupe les crudités, mélange tout avec l’huile et un filet de vinaigre ou de citron.']);}
+ var lt=frPick(GRP.laitier,1)[0],fr2=frPick(GRP.fruit,1)[0];
+ if(lt&&fr2){var nut=frPick(['avoine','cacahuete'].concat(catKeys('autre').filter(function(k){return /amande|noix|noisette|cajou|cacahu|chia|lin|courge/.test(k);})).concat(catKeys('fec').filter(function(k){return /granola|muesli|cornfl/.test(k);})),1)[0],ing5=[[lt,200],[fr2,120]];if(nut)ing5.push([nut,ING[nut][1]>500?20:35]);
+  add('g_bol','Collation : '+shortName(lt)+' & '+shortName(fr2)+(nut?' + '+shortName(nut):''),'🥣',ing5,['Verse le '+shortName(lt)+' dans un bol.','Ajoute le fruit coupé'+(nut?' et le '+shortName(nut):'')+'.','Idéal en goûter ou après la séance.'],[]);GEN.g_bol.snack=1;GEN.g_bol.time=3;}
  return out;
 }
 function frSuggest(){
@@ -1344,11 +1568,11 @@ function frSuggest(){
  return list.slice(0,8);
 }
 function vFrigo(){
- var fr=Object.keys(S.fridge||{}).filter(function(k){return ING[k];}),sec=UI.frs||'add';
+ var fr=Object.keys(S.fridge||{}).filter(function(k){return ING[k];}),sec=UI.frs||'add',frx=S.fridgeX||[];
  var h='<div class="card hero"><div class="row sp"><div><h2 style="margin:0">🧊 Mon frigo & placard</h2><div class="sub">'+(fr.length?fr.length+' aliment'+(fr.length>1?'s':'')+' : '+esc(fr.map(shortName).join(', ')):'Coche ce qu’il te reste, je te propose un plat facile que tu aimes.')+'</div></div>'+(fr.length?'<button class="btn sm" data-act="frClear">Vider</button>':'')+'</div></div>';
  h+='<div class="seg"><button class="'+(sec==='add'?'on':'')+'" data-act="frSec" data-v="add">✏️ Ce qu’il me reste</button><button class="'+(sec==='idea'?'on':'')+'" data-act="frSec" data-v="idea">💡 Idées de plats'+(fr.length?' ('+frSuggest().length+')':'')+'</button></div>';
  if(sec==='add'){
-  h+='<div class="card" style="padding:12px"><input data-in="frq" id="frq" autocomplete="off" enterkeyhint="done" placeholder="🔍 Tape un aliment : œufs, riz, tomates…" value="'+esc(UI.frq||'')+'"><div id="frres">'+frRes()+'</div></div><div class="sub" style="margin:2px 2px 0">… ou touche les aliments dans la liste :</div>';
+  h+='<div class="card" style="padding:12px"><input data-in="frq" id="frq" autocomplete="off" enterkeyhint="done" placeholder="🔍 Tape un aliment : œufs, riz, tomates…" value="'+esc(UI.frq||'')+'"><div id="frres">'+frRes()+'</div>'+((S.fridgeX||[]).length?'<div class="sub" style="margin-top:10px">📝 Notés (hors recettes) :</div><div class="chips wrap" style="margin-top:4px">'+S.fridgeX.map(function(x){return '<span class="chip" data-act="frRmX" data-v="'+esc(x)+'">'+esc(x)+' ✕</span>';}).join('')+'</div>':'')+'</div><div class="sub" style="margin:2px 2px 0">… ou touche les aliments dans la liste :</div>';
   RAYONS.forEach(function(ry,ri){var ks=Object.keys(ING).filter(function(k){return ING[k][6]===ri&&!NOTASTE.test(k)&&tasteOf(k)>=0;}).sort(function(a,b){return ING[a][0].localeCompare(ING[b][0]);});if(!ks.length)return;
    h+='<h3>'+ry.replace(' (dure plusieurs semaines)','')+'</h3><div class="chips wrap">'+ks.map(function(k){return '<span class="chip'+(frHas(k)?' on':'')+'" data-act="fr" data-k="'+k+'">'+(frHas(k)?'✓ ':'')+esc(shortName(k))+'</span>';}).join('')+'</div>';});
   h+='<div class="sub" style="margin-top:12px">Huile, sel, poivre et épices : je considère que tu en as toujours. Les aliments que tu as marqués 🚫 n’apparaissent pas.</div>';
@@ -1358,6 +1582,7 @@ function vFrigo(){
  var sg=frSuggest();
  if(!sg.length)return h+'<div class="empty">Pas assez d’ingrédients pour un plat complet. Ajoute au moins une source de protéines (œufs, thon, poulet, jambon…) et un féculent ou un légume.</div>';
  h+=sg.map(function(x){var m=rMac(x.rc);return '<div class="card" data-act="recipe" data-id="'+x.rc.id+'" style="cursor:pointer"><div class="row sp" style="align-items:flex-start"><b style="font-size:15px">'+x.rc.emo+' '+esc(x.rc.name)+'</b><span class="pill'+(x.miss.length?'':' acc')+'" style="white-space:nowrap">'+(x.miss.length?'manque '+x.miss.length:'✅ tu as tout')+'</span></div><div class="sub" style="margin-top:4px">'+mline(m)+'</div>'+(x.miss.length?'<div class="sub" style="font-size:12px;margin-top:2px">🛒 Il te manque : '+esc(x.miss.map(shortName).join(', '))+'</div>':'')+'</div>';}).join('');
+ if((S.fridgeX||[]).length)h+='<div class="card"><div class="sub">📝 Pense aussi à utiliser : <b style="color:var(--tx)">'+esc(S.fridgeX.join(', '))+'</b> (tu peux l’ajouter dans le plat de ton choix).</div></div>';
  h+='<div class="sub" style="text-align:center">Touche un plat pour voir la recette et les quantités pour toi.</div>';
  return h;
 }
@@ -1368,12 +1593,12 @@ function recipeSheetOld(id){var rc=REC[id];if(!rc)return;var ing=rIng(rc),m=mac(
  sheet('<h2>'+rc.emo+' '+esc(rc.name)+'</h2><div class="sub">Pour 1 portion · '+rc.time+' min · '+(rc.keep?'se garde '+rc.keep+' jours':'à manger tout de suite')+' · ≈ '+eur(costOf(ing))+'</div><div class="grid3" style="margin:12px 0"><div class="stat"><b>'+fmt(m.kcal)+'</b><span>kcal</span></div><div class="stat"><b style="color:var(--p)">'+Math.round(m.p)+' g</b><span>protéines</span></div><div class="stat"><b>'+Math.round(m.c)+' / '+Math.round(m.f)+'</b><span>gluc. / lip. (g)</span></div></div>'+ing.map(function(it){return '<div class="kv"><span>'+esc(ING[it[0]][0])+'</span><span>'+fmtQty(it[0],it[1])+'</span></div>';}).join('')+(rc.extra.length?'<div class="sub" style="margin:6px 0 10px">+ '+rc.extra.join(', ')+'</div>':'')+'<ol class="steps">'+rc.steps.map(function(st){return '<li>'+esc(st)+'</li>';}).join('')+'</ol><button class="btn pri blk" data-act="closeSheet">Fermer</button>');}
 Object.assign(A,{
  ftab:function(d){UI.ftab=d.t;render();},
- taste:function(d){S.taste=S.taste||{};var v=+d.v;if(!v||S.taste[d.k]===v)delete S.taste[d.k];else S.taste[d.k]=v;save(true);render(true);},
+ taste:function(d){d={k:resolveK(d.k),v:d.v};if(!d.k)return;S.taste=S.taste||{};var v=+d.v;if(!v||S.taste[d.k]===v)delete S.taste[d.k];else S.taste[d.k]=v;save(true);render(true);},
  badRec:function(d){S.badRec=S.badRec||{};S.badRec[d.id]=1;closeSheet();save(true);render(true);toast('🚫 Recette retirée de tes menus');},
  unbad:function(d){if(S.badRec)delete S.badRec[d.id];save(true);render(true);},
  tasteReset:function(){S.taste={};S.badRec={};save(true);render(true);toast('Goûts remis à zéro');},
  fr:function(d){S.fridge=S.fridge||{};if(S.fridge[d.k])delete S.fridge[d.k];else S.fridge[d.k]=1;save(true);render(true);},
- frClear:function(){S.fridge={};save(true);render(true);},
+ frClear:function(){S.fridge={};S.fridgeX=[];save(true);render(true);},
  frSec:function(d){UI.frs=d.v;render(true);},
  npCook:function(d){var rc=REC[d.id]||GEN[d.id];if(!rc)return;var m=rMac(rc),hr=new Date().getHours(),sl=hr<11?'bf':hr<15?'lu':hr<18?'sn':'di';var e={id:uid(),slot:sl,name:rc.name,qty:0,qtyTxt:'1 portion (frigo)',kcal:Math.round(m.kcal),p:r1(m.p),c:r1(m.c),f:r1(m.f),fib:r1(m.fib)};(S.meals[today()]=S.meals[today()]||[]).push(e);closeSheet();save(true);render(true);toast('✓ Ajouté au journal · bon appétit !');},
  npw:function(d){var wk=addDays(curWk(),7*(+d.d)),min=weekStart(today()),max=addDays(min,21);if(wk<min||wk>max)return;UI.npw=wk;render(true);},
@@ -1496,22 +1721,29 @@ Object.assign(A,{
 });
 
 /* ---------- Frigo : recherche ---------- */
-var FRSYN={oeuf:'oeuf oeufs',rizb:'riz basmati riz blanc',pates:'pates completes',pates_b:'pates spaghetti macaroni coquillettes penne tagliatelle',boeufh:'steak hache boeuf viande hachee viande',poulet:'poulet blanc de poulet filet de poulet escalope de poulet',dinde:'dinde escalope',fblanc:'fromage blanc',skyr:'skyr',yaourt:'yaourt yogourt yoghourt',emmental:'emmental fromage rape gruyere fromage',mozza:'mozzarella mozza',lait:'lait',pdt:'pomme de terre patate pdt',patated:'patate douce',tortilla:'wrap tortilla galette',pain:'pain de mie tartine pain',poelee:'legumes surgeles poelee melange de legumes',fruitsr:'fruits rouges framboise myrtille fraise',cacahuete:'beurre de cacahuete cacahuete peanut',thon:'thon',saumon:'saumon poisson',crevettes:'crevettes',sardines:'sardines',tofu:'tofu',jambon:'jambon',lentilles:'lentilles corail lentille',poischiche:'pois chiches pois chiche',haricotr:'haricots rouges',haricotb:'haricots blancs',hverts:'haricots verts',petitpois:'petits pois',tomatec:'tomates concassees sauce tomate coulis',tomate:'tomate tomates fraiches',mais:'mais',laitcoco:'lait de coco coco',chouf:'chou fleur choufleur',champi:'champignons champignon',salade:'salade laitue iceberg',miel:'miel',nouilles:'nouilles',gnocchi:'gnocchi gnocchis',semoule:'semoule couscous',avoine:'flocons d avoine avoine porridge',banane:'banane',pomme:'pomme',orange:'orange',avocat:'avocat',epinards:'epinards',brocoli:'brocoli brocolis',courgette:'courgette',poivron:'poivron',carotte:'carotte',oignon:'oignon',concombre:'concombre',aubergine:'aubergine'};
+var FRSYN={oeuf:'oeuf oeufs',rizb:'riz basmati riz blanc',pates:'pates completes',pates_b:'pates spaghetti macaroni coquillettes penne tagliatelle',boeufh:'steak hache boeuf viande hachee viande',poulet:'poulet blanc de poulet filet de poulet escalope de poulet',dinde:'dinde escalope',fblanc:'fromage blanc',skyr:'skyr',yaourt:'yaourt yogourt yoghourt',emmental:'fromage rape emmental rape gruyere rape',fromage:'fromage gruyere comte raclette cantal beaufort abondance tomme fromage a raclette',parmesan:'parmesan grana padano',chevre:'chevre fromage de chevre buche',creme:'creme fraiche creme liquide creme',beurre:'beurre',lardons:'lardons lard bacon',saucisse:'saucisse saucisses knacki strasbourg toulouse chipolata merguez',rizc:'riz complet',quinoa:'quinoa',mozza:'mozzarella mozza',lait:'lait',pdt:'pomme de terre patate pdt',patated:'patate douce',tortilla:'wrap tortilla galette',pain:'pain de mie tartine pain',poelee:'legumes surgeles poelee melange de legumes',fruitsr:'fruits rouges framboise myrtille fraise',cacahuete:'beurre de cacahuete cacahuete peanut',thon:'thon',saumon:'saumon poisson',crevettes:'crevettes',sardines:'sardines',tofu:'tofu',jambon:'jambon',lentilles:'lentilles corail lentille',poischiche:'pois chiches pois chiche',haricotr:'haricots rouges',haricotb:'haricots blancs',hverts:'haricots verts',petitpois:'petits pois',tomatec:'tomates concassees sauce tomate coulis',tomate:'tomate tomates fraiches',mais:'mais',laitcoco:'lait de coco coco',chouf:'chou fleur choufleur',champi:'champignons champignon',salade:'salade laitue iceberg',miel:'miel',nouilles:'nouilles',gnocchi:'gnocchi gnocchis',semoule:'semoule couscous',avoine:'flocons d avoine avoine porridge',banane:'banane',pomme:'pomme',orange:'orange',avocat:'avocat',epinards:'epinards',brocoli:'brocoli brocolis',courgette:'courgette',poivron:'poivron',carotte:'carotte',oignon:'oignon',concombre:'concombre',aubergine:'aubergine'};
 function frNorm(s){return String(s||'').toLowerCase().replace(/œ/g,'oe').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z ]/g,' ').replace(/\s+/g,' ').trim();}
 function frStem(w){return w.length>3?w.replace(/(s|x)$/,''):w;}
-function frMatch(term){var q=frNorm(term).split(' ').map(frStem).filter(Boolean);if(!q.length)return [];var res=[];
- Object.keys(ING).forEach(function(k){if(NOTASTE.test(k)||tasteOf(k)<0)return;var words=frNorm((FRSYN[k]||'')+' '+shortName(k)+' '+ING[k][0]).split(' ').map(frStem);var sc=0,ok=q.every(function(t){var best=0;words.forEach(function(w){if(w===t)best=Math.max(best,3);else if(w.indexOf(t)===0)best=Math.max(best,2);else if(t.length>=4&&w.indexOf(t)>0)best=Math.max(best,1);});sc+=best;return best>0;});if(ok)res.push([k,sc+(/^(tomate|pates_b|rizb|poulet|oeuf|lait|pdt)$/.test(k)?0.5:0)]);});
+var FRASSUME=/^(ail|sel|poivre|epice|epices|herbe|herbes|huile|huile d olive|vinaigre|moutarde|ketchup|mayonnaise|mayo|sauce soja|soja|curry|paprika|cumin|sucre|farine|levure|bouillon|cube|persil|basilic|thym|origan)$/;
+function frMatch(term,all){var q=frNorm(term).split(' ').map(frStem).filter(Boolean);if(!q.length)return [];var res=[],seen={};
+ var cands=Object.keys(ING).map(function(k){var x=k.indexOf('x_')===0?XFOOD[k.slice(2)]:null;if(x)seen[x.id]=1;return [k,(FRSYN[k]||'')+' '+(x?x.syn:'')+' '+shortName(k)+' '+ING[k][0]];}).concat(Object.keys(XFOOD).filter(function(id){return !seen[id];}).map(function(id){return ['xf:'+id,XFOOD[id].syn+' '+XFOOD[id].n];}));
+ cands.forEach(function(cd){var k=cd[0];if(NOTASTE.test(k)||(!all&&tasteOf(k)<0))return;var words=frNorm(cd[1]).split(' ').map(frStem);var sc=0,ok=q.every(function(t){var best=0;words.forEach(function(w){if(w===t)best=Math.max(best,3);else if(w.indexOf(t)===0)best=Math.max(best,2);else if(t.length>=4&&w.indexOf(t)>0)best=Math.max(best,1);});sc+=best;return best>0;});if(ok)res.push([k,sc+(/^(tomate|pates_b|rizb|poulet|oeuf|lait|pdt|fromage)$/.test(k)?0.5:0)-(k.indexOf('xf:')===0?0.2:0)]);});
  res.sort(function(a,b){return b[1]-a[1];});return res.map(function(x){return x[0];});}
+function kName(k){return k.indexOf('xf:')===0?XFOOD[k.slice(3)].n.replace(/\s*\(.*\)/,'').toLowerCase():shortName(k);}
 function frRes(){var v=UI.frq||'';if(!v.trim())return '<div class="sub" style="font-size:12px;margin-top:6px">Astuce : tape plusieurs aliments séparés par des virgules (ex : « œufs, riz, tomates »), puis appuie sur Entrée.</div>';
  var terms=v.split(/[,;\n]+/).map(function(s){return s.trim();}).filter(Boolean);
- if(terms.length===1){var m=frMatch(terms[0]).slice(0,10);if(!m.length)return '<div class="sub" style="margin-top:6px">Aucun aliment trouvé pour « '+esc(terms[0])+' ». Essaie un autre mot (ex : « steak », « pâtes », « fromage »).</div>';
-  return '<div class="chips wrap" style="margin-top:8px">'+m.map(function(k){return '<span class="chip'+(frHas(k)?' on':'')+'" data-act="frPick" data-k="'+k+'">'+(frHas(k)?'✓ ':'+ ')+esc(shortName(k))+'</span>';}).join('')+'</div>';}
- var found=[],miss=[];terms.forEach(function(t){var m=frMatch(t);if(m.length){if(found.indexOf(m[0])<0)found.push(m[0]);}else miss.push(t);});
- return '<div class="sub" style="margin-top:8px">'+(found.length?'Je vais ajouter : <b style="color:var(--tx)">'+esc(found.map(shortName).join(', '))+'</b>':'')+(miss.length?'<br>Pas reconnu : '+esc(miss.join(', ')):'')+'</div>'+(found.length?'<button class="btn pri blk" data-act="frAddQ" style="margin-top:8px">+ Ajouter au frigo</button>':'');}
+ if(terms.length===1){var m=frMatch(terms[0]).slice(0,10);if(!m.length&&FRASSUME.test(frNorm(terms[0])))return '<div class="sub" style="margin-top:6px">Pas besoin de noter « '+esc(terms[0])+' » : je considère que tu en as toujours (huile, sel, épices, ail…).</div>';if(!m.length)return '<div class="sub" style="margin-top:6px">« '+esc(terms[0])+' » n’est pas encore dans ma liste. Crée-le en 2 secondes : il servira dans ton frigo, tes goûts et les idées de plats.</div><button class="btn pri blk" data-act="custNew" data-v="'+esc(terms[0])+'" style="margin-top:8px">➕ Créer « '+esc(terms[0])+' »</button>';
+  return '<div class="chips wrap" style="margin-top:8px">'+m.map(function(k){return '<span class="chip'+(frHas(k)?' on':'')+'" data-act="frPick" data-k="'+k+'">'+(frHas(k)?'✓ ':'+ ')+esc(kName(k))+'</span>';}).join('')+'</div><button class="btn sm" data-act="custNew" data-v="'+esc(terms[0])+'" style="margin-top:8px">➕ Pas dans la liste ? Créer « '+esc(terms[0])+' »</button>';}
+ var found=[],miss=[],asm=[];terms.forEach(function(t){var m=frMatch(t);if(m.length){if(found.indexOf(m[0])<0)found.push(m[0]);}else if(FRASSUME.test(frNorm(t)))asm.push(t);else miss.push(t);});
+ return '<div class="sub" style="margin-top:8px">'+(found.length?'Je vais ajouter : <b style="color:var(--tx)">'+esc(found.map(kName).join(', '))+'</b>':'')+(asm.length?'<br>Pas besoin de noter '+esc(asm.join(', '))+' : je considère que tu en as toujours.':'')+(miss.length?'<br>Pas dans ma liste : '+esc(miss.join(', '))+' → tape-le seul pour le créer (sinon je le garde en note).':'')+'</div>'+(found.length||miss.length?'<button class="btn pri blk" data-act="frAddQ" style="margin-top:8px">+ Ajouter au frigo</button>':'');}
 function frqIn(el){UI.frq=el.value;var r=$('#frres');if(r)r.innerHTML=frRes();};
 Object.assign(A,{
- frPick:function(d){S.fridge=S.fridge||{};if(S.fridge[d.k])delete S.fridge[d.k];else S.fridge[d.k]=1;UI.frq='';save(true);render(true);var i=$('#frq');if(i)i.focus();toast('✓ '+shortName(d.k));},
- frAddQ:function(){var v=UI.frq||'',terms=v.split(/[,;\n]+/).map(function(s){return s.trim();}).filter(Boolean),add=[];S.fridge=S.fridge||{};terms.forEach(function(t){var m=frMatch(t);if(m.length){S.fridge[m[0]]=1;if(add.indexOf(m[0])<0)add.push(m[0]);}});if(!add.length)return toast('Aucun aliment reconnu');UI.frq='';save(true);render(true);var i=$('#frq');if(i)i.focus();toast('✓ Ajouté : '+add.map(shortName).join(', '));}
+ frPick:function(d){d={k:resolveK(d.k)};if(!d.k)return;S.fridge=S.fridge||{};if(S.fridge[d.k])delete S.fridge[d.k];else S.fridge[d.k]=1;UI.frq='';save(true);render(true);var i=$('#frq');if(i)i.focus();toast('✓ '+shortName(d.k));},
+ custNew:function(d){custSheet(d.v,UI.ftab==='gouts'?'gout':'fr');},
+ custSave:function(){var n=($('#cu_n').value||'').trim();if(!n)return toast('Donne-lui un nom');var cat=$('#cu_c').value,D=CATDEF[cat],g=function(id,i){var v=num($(id).value);return v>0||($(id).value||'').trim()==='0'?v:D[i];};var o={n:n.charAt(0).toUpperCase()+n.slice(1),cat:cat,kcal:g('#cu_k',0),p:g('#cu_p',1),c:g('#cu_g',2),f:g('#cu_l',3),fib:D[4]};var key='c_'+Date.now().toString(36);S.customIng=S.customIng||{};S.customIng[key]=o;regIng(key,o);if(UI.custMode==='fr'){S.fridge=S.fridge||{};S.fridge[key]=1;}UI.frq='';UI.gq='';closeSheet();save(true);render(true);toast('✓ '+o.n+' ajouté'+(UI.custMode==='fr'?' au frigo':' à ta liste'));},
+ frAddX:function(){var t=(UI.frq||'').trim();if(!t)return;S.fridgeX=S.fridgeX||[];if(S.fridgeX.indexOf(t)<0)S.fridgeX.push(t);UI.frq='';save(true);render(true);toast('📝 Noté : '+t);},
+ frRmX:function(d){S.fridgeX=(S.fridgeX||[]).filter(function(x){return x!==d.v;});save(true);render(true);},
+ frAddQ:function(){var v=UI.frq||'',terms=v.split(/[,;\n]+/).map(function(s){return s.trim();}).filter(Boolean),add=[];S.fridge=S.fridge||{};S.fridgeX=S.fridgeX||[];terms.forEach(function(t){var m=frMatch(t);if(m.length){var kk=resolveK(m[0]);S.fridge[kk]=1;if(add.indexOf(kk)<0)add.push(kk);}else if(!FRASSUME.test(frNorm(t))&&S.fridgeX.indexOf(t)<0){S.fridgeX.push(t);add.push(null);}});if(!add.length)return toast('Rien à ajouter');add=add.filter(Boolean);UI.frq='';save(true);render(true);var i=$('#frq');if(i)i.focus();toast('✓ Ajouté : '+add.map(shortName).join(', '));}
 });
 
 /* ---------- Photos de progression (stockées sur l'appareil) ---------- */
@@ -1549,9 +1781,9 @@ var IN={
  aiF:function(el){var x=AIF.items[el.dataset.i],k=el.dataset.k;x[k]=k==='name'?el.value:num(el.value);var b=document.querySelector('[data-act="aiFoodAdd"]');if(b){var t=0;AIF.items.forEach(function(i){if(i.on)t+=num(i.kcal);});b.textContent='Ajouter ('+fmt(t)+' kcal)';}}
 };
 document.addEventListener('click',function(e){var el=e.target.closest('[data-act]');if(!el||el.disabled)return;var f=A[el.dataset.act];if(f){e.preventDefault();f(el.dataset,el);}});
-document.addEventListener('input',function(e){var el=e.target.closest('[data-in]');if(!el)return;var f=IN[el.dataset.in]||(el.dataset.in==='frq'?frqIn:null);if(f)f(el);});
+document.addEventListener('input',function(e){var el=e.target.closest('[data-in]');if(!el)return;var f=IN[el.dataset.in]||(el.dataset.in==='frq'?frqIn:el.dataset.in==='gq'?gqIn:null);if(f)f(el);});
 document.addEventListener('change',function(e){var el=e.target;if(el.tagName==='SELECT'&&el.dataset.in==='prof')calcPrev();if(el.type==='checkbox'&&el.dataset.in==='aiOn')IN.aiOn(el);if(el.id==='ph_in'){addPhoto(el.files&&el.files[0]);el.value='';}if(el.id==='ai_img'){var n=$('#ai_imgn');if(n)n.textContent=el.files&&el.files[0]?'📎 '+el.files[0].name:'';}});
-document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='qty'){A.addQty();}if(e.key==='Enter'&&e.target.id==='frq'){e.preventDefault();var t=(UI.frq||'').split(/[,;\n]+/).filter(function(s){return s.trim();});if(t.length>1)A.frAddQ();else{var m=frMatch(UI.frq||'');if(m.length&&!frHas(m[0]))A.frPick({k:m[0]});else if(!m.length)toast('Aucun aliment reconnu');}}});
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='qty'){A.addQty();}if(e.key==='Enter'&&e.target.id==='frq'){e.preventDefault();var t=(UI.frq||'').split(/[,;\n]+/).filter(function(s){return s.trim();});if(t.length>1)A.frAddQ();else{var m=frMatch(UI.frq||'');if(m.length&&!frHas(m[0]))A.frPick({k:m[0]});else if(!m.length&&(UI.frq||'').trim())A.custNew({v:UI.frq.trim()});else if(!m.length)toast('Aucun aliment reconnu');}}});
 
 /* ---------- Démarrage ---------- */
 window.__fitlog={figSVG:figSVG,animType:animType};
