@@ -101,7 +101,7 @@ html.light .btn.bad{border-color:#f3c2c2}html.light .pr{color:#c9257a}html.light
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.pgrid div{position:relative;cursor:pointer}.pgrid img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;display:block}.pgrid span{position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px}
 .nudge{margin-top:8px;padding:9px 12px;border-radius:10px;background:rgba(240,71,154,.12);color:#c9257a;font-size:13px;font-weight:600}
 .kv{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:14px}.kv:last-child{border:0}
-</style></head><body><div id="app"></div><script id="app-data" type="application/json">{}</script><script id="app-code">
+.tab{padding:6px 2px}.cyring{width:84px;height:84px;flex:none;border-radius:50%;border:7px solid var(--cc);display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--card)}.cyring b{font-size:22px;font-weight:800;line-height:1}.cyring span{font-size:11px;color:var(--mut)}.cyg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.cyh{font-size:11px;color:var(--mut);font-weight:700}.cyd{position:relative;padding:8px 0;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;background:var(--card2)}.cyd i{position:absolute;bottom:0;left:0;right:0;font-style:normal;font-size:9px;line-height:1;color:#e2445c}.cyd.p{background:#e2445c;color:#fff}.cyd.p i{color:#fff}.cyd.pp{background:rgba(226,68,92,.18);color:#e2445c}.cyd.fe{background:rgba(95,168,255,.18)}.cyd.ov{background:#5fa8ff;color:#fff}.cyd.td{outline:2px solid var(--tx)}.cyd.sel{box-shadow:0 0 0 3px var(--acc)}.cyleg{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;font-size:11px;color:var(--mut)}.cyleg b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}.cyleg b.p{background:#e2445c}.cyleg b.pp{background:rgba(226,68,92,.3)}.cyleg b.fe{background:rgba(95,168,255,.35)}.cyleg b.ov{background:#5fa8ff}.seg6{display:grid;grid-template-columns:repeat(3,1fr)}.seg6 button{font-size:12.5px}.chips.wrap{flex-wrap:wrap;overflow:visible}.trow{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}.trow:last-child{border-bottom:0}.trow .nm{flex:1;min-width:0;font-size:14px}.tb{display:flex;gap:4px}.tb button{appearance:none;border:1px solid var(--line);background:var(--card2);border-radius:9px;padding:5px 8px;font-size:15px;cursor:pointer;opacity:.45;filter:grayscale(1)}.tb button.on{opacity:1;filter:none;border-color:var(--acc);background:rgba(240,71,154,.12)}.chip.bad{opacity:.5;text-decoration:line-through}</style></head><body><div id="app"></div><script id="app-data" type="application/json">{}</script><script id="app-code">
 (function(){
 'use strict';
 var HEAD='<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0c0c10"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>FitLog Elle – Fessiers, abdos &amp; nutrition</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">';
@@ -323,9 +323,9 @@ function weekCount(k){var ws=weekStart(k||today()),we=addDays(ws,7);return S.wor
 function calc(p){var bmr=10*num(p.weight)+6.25*num(p.height)-5*num(p.age)+(p.sex==='f'?-161:5);var tdee=bmr*num(p.activity);var k=p.goal==='cut'?tdee*0.8:p.goal==='bulk'?tdee+275:tdee;k=Math.round(k/10)*10;var pk=p.goal==='maintain'?1.8:2.0;var pr=Math.round(num(p.weight)*pk);var f=Math.round(k*0.25/9);var c=Math.max(0,Math.round((k-pr*4-f*9)/4));return {bmr:Math.round(bmr),tdee:Math.round(tdee),kcal:k,p:pr,c:c,f:f};}
 
 /* ---------- UI génériques ---------- */
-var IC={home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',train:'<path d="M6.5 6.5v11M3.5 9v6M17.5 6.5v11M20.5 9v6M6.5 12h11"/>',food:'<path d="M12 7.5c-3-2-7.5-.5-7.5 4.5s3 9 5.2 9c1 0 1.5-.5 2.3-.5s1.3.5 2.3.5c2.2 0 5.2-4 5.2-9S15 5.5 12 7.5z"/><path d="M12 7.5c0-2.2 1.2-4 3.5-4.5"/>',prog:'<path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/>',more:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>'};
+var IC={cycle:'<path d="M12 2.7s6.2 7 6.2 11.6a6.2 6.2 0 0 1-12.4 0C5.8 9.7 12 2.7 12 2.7z"/>',home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',train:'<path d="M6.5 6.5v11M3.5 9v6M17.5 6.5v11M20.5 9v6M6.5 12h11"/>',food:'<path d="M12 7.5c-3-2-7.5-.5-7.5 4.5s3 9 5.2 9c1 0 1.5-.5 2.3-.5s1.3.5 2.3.5c2.2 0 5.2-4 5.2-9S15 5.5 12 7.5z"/><path d="M12 7.5c0-2.2 1.2-4 3.5-4.5"/>',prog:'<path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/>',more:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>'};
 function icon(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+IC[n]+'</svg>';}
-function tabbar(){var t=[['home','Accueil'],['train','Séance'],['food','Nutrition'],['prog','Progrès'],['more','Plus']];return '<nav class="tabbar">'+t.map(function(x){return '<button class="tab'+(UI.tab===x[0]&&!UI.sub?' on':(UI.tab===x[0]?' on':''))+'" data-act="tab" data-t="'+x[0]+'">'+icon(x[0])+x[1]+'</button>';}).join('')+'</nav>';}
+function tabbar(){var t=[['home','Accueil'],['train','Séance'],['food','Nutrition'],['cycle','Cycle'],['prog','Progrès'],['more','Plus']];return '<nav class="tabbar">'+t.map(function(x){return '<button class="tab'+(UI.tab===x[0]&&!UI.sub?' on':(UI.tab===x[0]?' on':''))+'" data-act="tab" data-t="'+x[0]+'">'+icon(x[0])+x[1]+'</button>';}).join('')+'</nav>';}
 function hdr(title,sub){return '<div class="hdr"><button class="back" data-act="back">‹</button><div class="grow"><h1 style="font-size:22px">'+title+'</h1>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div></div>';}
 function toast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove();},2200);}
 var SHEET_CB=null;
@@ -351,6 +351,7 @@ function vHome(){
  var hr=new Date().getHours(),hi=hr<6?'Bonne nuit':hr<12?'Bonjour':hr<18?'Salut':'Bonsoir';
  h+='<div class="row sp"><div><div class="sub">'+fmtDate(t)+'</div><h1>'+hi+(S.profile.name?' '+esc(S.profile.name):'')+' 👋</h1></div><div class="row" style="gap:6px">'+syncBadge()+thmBtn()+'</div></div>';
  if(S.active)h+='<div class="card hero row sp" data-act="tab" data-t="train" style="cursor:pointer"><div><b>🏋️ Séance en cours</b><div class="sub">'+esc(S.active.name)+' · <span class="elapsed">'+fmtClock(Date.now()-S.active.start)+'</span></div></div><span class="btn pri sm">Reprendre</span></div>';
+ h+=cyHomeCard();
  h+='<div class="card"><div class="row sp"><h2 style="margin:0">Nutrition du jour</h2><button class="btn sm" data-act="tab" data-t="food">Ouvrir</button></div><div class="row" style="margin-top:8px;align-items:center">'+ring(tot.kcal,g.kcal)+'<div class="grow">'+macro('Protéines',tot.p,g.p,'var(--p)')+macro('Glucides',tot.c,g.c,'var(--c)')+macro('Lipides',tot.f,g.f,'var(--f)')+'</div></div><div class="sub" style="margin-top:4px">'+fmt(tot.kcal)+' / '+fmt(g.kcal)+' kcal mangées</div><div style="margin-top:12px">'+waterRow(t)+'</div></div>';
  var ws=weekStart(t),days=workoutDays(),dn=['L','M','M','J','V','S','D'],dots='';for(var i=0;i<7;i++){var k=addDays(ws,i);dots+='<span><i class="'+(days[k]?'on':'')+'"></i>'+dn[i]+'</span>';}
  var wc=weekCount(t),last=S.workouts[S.workouts.length-1];
@@ -464,7 +465,7 @@ function libList(){var l=exFilter(UI.libq,UI.libG);if(!l.length)return '<div cla
 function vFood(){
  var k=UI.date,tot=dayTotals(k),g=S.goals,isT=k===today();
  var h='<div class="row sp"><h1>Nutrition</h1>'+syncBadge()+'</div>'+nSeg();
- var ft=UI.ftab||'plan';if(ft==='plan')return h+vPlanN();if(ft==='prep')return h+vPrep();if(ft==='courses')return h+vCourses();
+ var ft=UI.ftab||'plan';if(ft==='plan')return h+vPlanN();if(ft==='prep')return h+vPrep();if(ft==='courses')return h+vCourses();if(ft==='gouts')return h+vGouts();if(ft==='frigo')return h+vFrigo();
  h+='<div class="row sp card" style="padding:8px"><button class="ibtn" data-act="day" data-d="-1">‹</button><b>'+(isT?'Aujourd’hui':k===addDays(today(),-1)?'Hier':fmtDate(k))+'</b><button class="ibtn" data-act="day" data-d="1"'+(isT?' style="visibility:hidden"':'')+'>›</button></div>';
  h+='<div class="card"><div class="row" style="align-items:center">'+ring(tot.kcal,g.kcal,116)+'<div class="grow">'+macro('Protéines',tot.p,g.p,'var(--p)')+macro('Glucides',tot.c,g.c,'var(--c)')+macro('Lipides',tot.f,g.f,'var(--f)')+macro('Fibres',tot.fib,g.fib||35,'var(--ok)')+'</div></div><div class="row sp sub" style="margin-top:6px"><span>Objectif '+fmt(g.kcal)+' kcal</span><span>Mangé '+fmt(tot.kcal)+' kcal</span></div></div>';
  SLOTS.forEach(function(sl){var es=dayEntries(k).filter(function(e){return e.slot===sl[0];});if(sl[0]==='bf'&&!es.length)return;var sk=es.reduce(function(a,e){return a+num(e.kcal);},0);
@@ -514,7 +515,7 @@ function vBody(){
  h+='<div class="card"><h2>📸 Photos de progression</h2><div class="sub">Stockées uniquement sur cet appareil, jamais envoyées ni sauvegardées ailleurs.</div><label class="btn pri blk" style="margin-top:10px">📷 Ajouter une photo<input type="file" id="ph_in" accept="image/*" style="display:none"></label><div id="photos" style="margin-top:10px">'+photoGrid()+'</div></div>';
  h+='<div class="card"><h2>Poids</h2><div class="grid2"><input id="bw_w" inputmode="decimal" placeholder="kg"><input id="bw_d" type="date" value="'+today()+'"></div><button class="btn pri blk" data-act="addWeight" style="margin-top:8px">Enregistrer le poids</button><div style="margin-top:12px">'+lineChart(sw.map(function(x){return {x:fmtShort(x.d),y:x.w};}))+'</div>';
  if(sw.length){var mn=Math.min.apply(null,sw.map(function(x){return x.w;})),mx=Math.max.apply(null,sw.map(function(x){return x.w;}));h+='<div class="grid3" style="margin-top:8px"><div class="stat"><b>'+r1(sw[sw.length-1].w)+'</b><span>Actuel</span></div><div class="stat"><b>'+r1(mn)+'</b><span>Min</span></div><div class="stat"><b>'+r1(mx)+'</b><span>Max</span></div></div>';}
- h+='<div class="list" style="margin-top:8px">'+sw.slice().reverse().slice(0,15).map(function(x){return '<div class="it" style="cursor:default"><span class="grow">'+fmtDate(x.d)+'</span><b>'+r1(x.w)+' kg</b><button class="ibtn" data-act="rmWeight" data-d="'+x.d+'">✕</button></div>';}).join('')+'</div></div>';
+ h+='<div class="list" style="margin-top:8px">'+sw.slice().reverse().slice(0,15).map(function(x){return '<div class="it" style="cursor:default"><span class="grow">'+fmtDate(x.d)+cyMark(x.d)+'</span><b>'+r1(x.w)+' kg</b><button class="ibtn" data-act="rmWeight" data-d="'+x.d+'">✕</button></div>';}).join('')+'</div></div>';
  var MS=[['waist','Tour de taille'],['chest','Poitrine'],['arm','Bras'],['thigh','Cuisse'],['hips','Hanches'],['fat','% de gras']];
  h+='<div class="card"><h2>Mensurations (cm)</h2><div class="grid2">'+MS.map(function(m){return '<label class="f"><span>'+m[1]+'</span><input id="ms_'+m[0]+'" inputmode="decimal"></label>';}).join('')+'</div><button class="btn blk" data-act="addMeasure">Enregistrer</button>';
  var ms=S.measures.slice().sort(function(a,b){return a.d<b.d?1:-1;});
@@ -593,7 +594,7 @@ try{matchMedia('(prefers-color-scheme: light)').addEventListener('change',functi
 function thmBtn(){return '<button class="thm" data-act="toggleTheme" title="Mode clair / sombre">'+(isLight()?'🌙':'☀️')+'</button>';}
 function gymName(){return (S.settings.gym||'CSU Champel, Chemin Édouard-Tavan 7, Genève').trim();}
 function gymCard(){var g=gymName(),u='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(g);return '<a class="card gymc" href="'+u+'" target="_blank" rel="noopener"><span class="gymi">📍</span><div class="grow"><b>Affluence en direct</b><div class="sub">'+esc(g)+' · ouvre Google Maps</div></div><span class="sub" style="font-size:20px">↗</span></a>';}
-var TABS={home:vHome,train:vTrain,food:vFood,prog:vProg,more:vMore};
+var TABS={home:vHome,train:vTrain,food:vFood,cycle:vCycle,prog:vProg,more:vMore};
 var SUBS={plan:vPlan,progEdit:vProgEdit,history:vHistory,workout:vWorkout,exDetail:vExDetail,library:vLibrary,foodAdd:vFoodAdd,goals:vGoals,body:vBody,tools:vTools,settings:vSettings,install:vInstall};
 var STACK=[];
 function render(keep){
@@ -1020,6 +1021,26 @@ var ING={
  epinards:['Épinards hachés (surgelés)',23,2.9,3.6,0.4,2.2,6],
  poelee:['Poêlée de légumes (surgelée)',45,2,6,1.2,3,6],
  fruitsr:['Fruits rouges (surgelés)',45,1,9,0.3,4,6],
+ dinde:['Escalopes de dinde',105,23,0,1.5,0,4],
+ jambon:['Jambon blanc',115,20,1,3.5,0,4,'tranche',40],
+ saumon:['Pavés de saumon (surgelés)',200,20,0,13,0,6,'pavé',125],
+ crevettes:['Crevettes décortiquées (surgelées)',80,18,0,1,0,6],
+ sardines:['Sardines à l’huile (égouttées)',210,24,0,13,0,3,null,null,95],
+ tofu:['Tofu nature',120,13,2,7,1,5],
+ mozza:['Mozzarella',250,18,2,19,0,5,'boule',125],
+ yaourt:['Yaourts nature',60,4,5,3,0,5,'pot',125],
+ champi:['Champignons de Paris',22,3,3.3,0.3,1,0],
+ chouf:['Chou-fleur (surgelé)',25,2,3,0.3,2.5,6],
+ petitpois:['Petits pois (surgelés)',81,5,14,0.4,5,6],
+ aubergine:['Aubergines',25,1,6,0.2,3,0,'aubergine',300],
+ salade:['Salade verte',15,1.4,2.9,0.2,1.3,0],
+ avocat:['Avocats',160,2,8.5,14.7,6.7,0,'avocat',140],
+ orange:['Oranges',47,0.9,11.8,0.1,2.4,0,'orange',150],
+ patated:['Patates douces',86,1.6,20,0.1,3,0],
+ pates_b:['Pâtes classiques',360,12,72,1.5,3,2],
+ nouilles:['Nouilles aux œufs',360,12,70,3,3,2],
+ gnocchi:['Gnocchi',150,4,32,0.4,1.5,2],
+ haricotb:['Haricots blancs (conserve)',100,6.5,13,0.5,6,3,null,null,250],
  cacahuete:['Beurre de cacahuète',600,25,15,48,6,7],
  huile:['Huile de colza',884,0,0,100,0,7],
  soja:['Sauce soja',53,8,5,0.6,0.8,7],
@@ -1061,6 +1082,26 @@ var LIDL={
  epinards:['Épinards hachés surgelés · 1 kg',1000,1.69],
  poelee:['Poêlée de légumes surgelée · 1 kg',1000,1.99],
  fruitsr:['Fruits rouges surgelés · 750 g',750,2.99],
+ dinde:['Escalopes de dinde · env. 500 g',500,5.49],
+ jambon:['Jambon blanc · 4 tranches 160 g',160,1.49],
+ saumon:['Pavés de saumon surgelés · 4 × 125 g',500,7.99],
+ crevettes:['Crevettes décortiquées surgelées · 400 g',400,4.99],
+ sardines:['Sardines à l’huile · 135 g',95,0.99],
+ tofu:['Tofu nature · Vemondo 400 g',400,1.99],
+ mozza:['Mozzarella · Milbona 125 g',125,0.79],
+ yaourt:['Yaourts nature · Milbona 8 × 125 g',1000,1.69],
+ champi:['Champignons de Paris · 500 g',500,1.99],
+ chouf:['Chou-fleur surgelé · 1 kg',1000,1.99],
+ petitpois:['Petits pois surgelés · 1 kg',1000,1.99],
+ aubergine:['Aubergine · la pièce',300,0.99],
+ salade:['Salade iceberg · la pièce',500,0.89],
+ avocat:['Avocats · filet de 2',280,1.99],
+ orange:['Oranges · filet 2 kg',2000,2.99],
+ patated:['Patates douces · 1 kg',1000,2.49],
+ pates_b:['Spaghetti · Combino 500 g',500,0.69],
+ nouilles:['Nouilles aux œufs · Vitasia 250 g',250,1.29],
+ gnocchi:['Gnocchi · 500 g',500,1.19],
+ haricotb:['Haricots blancs · Freshona 400 g',250,0.79],
  cacahuete:['Beurre de cacahuète · McEnnedy 350 g',350,2.49,1],
  huile:['Huile de colza · 1 L',920,1.99,1],
  soja:['Sauce soja · Vitasia 150 ml',150,1.29,1],
@@ -1080,7 +1121,16 @@ var RECIPES=[
  RC('saladethon','Salade de riz, thon, pois chiches & œuf','🥗','thon',20,3,[['thon',112],['rizb',60],['poischiche',80],['oeuf',60],['tomate',120],['concombre',100],['huile',8]],['Vinaigre ou citron','Moutarde'],['Cuis le riz et les œufs (10 min), laisse refroidir.','Coupe tomates et concombre, égoutte thon et pois chiches.','Mélange tout dans les boîtes.','Ajoute l’huile et un filet de vinaigre au moment de manger (se mange froid).']),
  RC('pouletpdt','Poulet aux poivrons & pommes de terre sautées','🍗','poulet',35,4,[['poulet',130],['pdt',250],['poivron',120],['oignon',40],['huile',8]],['Paprika','Herbes de Provence','Ail'],['Coupe les pommes de terre en dés, précuis-les 8 min à l’eau.','Fais dorer le poulet avec les épices 6 min, réserve.','Fais sauter pommes de terre, poivrons et oignon 12 min.','Remets le poulet, mélange et répartis.']),
  RC('couscous','Semoule complète, poulet, pois chiches & légumes','🥙','poulet',25,4,[['poulet',120],['semoule',70],['poischiche',70],['courgette',120],['carotte',80],['huile',6]],['Ras el hanout','Cumin'],['Fais dorer le poulet avec les épices, réserve.','Fais revenir carottes et courgettes en dés 10 min, ajoute les pois chiches.','Prépare la semoule (même volume d’eau bouillante, 5 min, couvercle).','Mélange le tout et répartis.']),
- RC('steakpuree','Steak haché, purée maison & haricots verts','🥩','boeuf',25,3,[['boeufh',100],['pdt',250],['hverts',150],['lait',50],['huile',3]],['Muscade (option)'],['Cuis les pommes de terre épluchées 20 min à l’eau, écrase-les avec le lait chaud, sel, poivre.','Cuis les haricots verts surgelés 8 min.','Poêle les steaks hachés 3-4 min par face.','Répartis dans les boîtes.'])
+ RC('steakpuree','Steak haché, purée maison & haricots verts','🥩','boeuf',25,3,[['boeufh',100],['pdt',250],['hverts',150],['lait',50],['huile',3]],['Muscade (option)'],['Cuis les pommes de terre épluchées 20 min à l’eau, écrase-les avec le lait chaud, sel, poivre.','Cuis les haricots verts surgelés 8 min.','Poêle les steaks hachés 3-4 min par face.','Répartis dans les boîtes.']),
+ RC('saumonriz','Saumon poêlé, riz & haricots verts','🐟','saumon',25,3,[['saumon',125],['rizb',70],['hverts',150],['huile',4]],['Citron (option)','Aneth ou herbes'],['Cuis le riz et les haricots verts.','Poêle les pavés de saumon décongelés 4 min côté peau puis 3 min de l’autre côté.','Répartis dans les boîtes (le saumon se mange dans les 2 jours).']),
+ RC('nouillescrev','Nouilles sautées aux crevettes & légumes','🍤','crevettes',20,3,[['crevettes',140],['nouilles',70],['poelee',150],['oeuf',60],['soja',15],['huile',6]],['Ail','Gingembre (option)'],['Cuis les nouilles 4 min, égoutte.','Fais sauter la poêlée de légumes 6 min, ajoute les crevettes 3 min.','Pousse sur le côté, brouille l’œuf, puis ajoute nouilles et sauce soja : 2 min à feu vif.','Répartis.']),
+ RC('dindechampi','Dinde aux champignons & pâtes','🍄','dinde',25,4,[['dinde',130],['pates_b',80],['champi',150],['oignon',30],['fblanc',40],['huile',6]],['Ail','Persil'],['Cuis les pâtes.','Coupe la dinde en lanières, fais-la dorer 5 min, réserve.','Fais revenir oignon et champignons 6 min, remets la dinde.','Hors du feu, ajoute le fromage blanc (sauce crémeuse sans crème), sel, poivre, et mélange aux pâtes.']),
+ RC('gnocchipoulet','Gnocchi poêlés, poulet, tomate & mozzarella','🧀','poulet',20,3,[['poulet',120],['gnocchi',220],['tomatec',120],['mozza',40],['huile',6]],['Basilic ou origan','Ail'],['Fais dorer les gnocchi 6-8 min à la poêle avec un peu d’huile, réserve.','Fais dorer le poulet en dés 6 min.','Ajoute tomates et herbes, 5 min, puis les gnocchi.','Répartis et ajoute la mozzarella en morceaux (elle fond au réchauffage).']),
+ RC('patedoucepoulet','Poulet paprika, patate douce & brocolis','🍠','poulet',30,4,[['poulet',130],['patated',250],['brocoli',150],['huile',7]],['Paprika','Ail'],['Coupe la patate douce en petits cubes, fais-la sauter 15 min couvercle mis en remuant.','Fais dorer le poulet au paprika 6 min.','Cuis les brocolis 6 min.','Répartis.']),
+ RC('tofuwok','Tofu croustillant sauce soja, riz & légumes','🥢','tofu',25,4,[['tofu',150],['rizb',70],['poelee',150],['soja',15],['miel',5],['huile',7]],['Ail','Gingembre (option)'],['Cuis le riz.','Coupe le tofu en cubes, sèche-les et fais-les dorer 8 min.','Ajoute la poêlée de légumes 6 min.','Ajoute sauce soja et miel, mélange 1 min et répartis.']),
+ RC('cassoulet','Cassoulet express dinde & haricots blancs','🫘','dinde',30,4,[['dinde',110],['haricotb',150],['tomatec',120],['carotte',60],['oignon',30],['pain',28],['huile',5]],['Thym','Ail'],['Fais dorer la dinde en dés, réserve.','Fais revenir oignon et carotte 5 min.','Ajoute tomates, haricots blancs égouttés, thym et la dinde : 15 min à feu doux.','Répartis, avec une tranche de pain à côté.']),
+ RC('jambonpates','Pâtes au jambon, petits pois & emmental','🥓','jambon',20,3,[['jambon',80],['pates_b',85],['petitpois',100],['fblanc',50],['emmental',15]],['Poivre'],['Cuis les pâtes, ajoute les petits pois les 4 dernières minutes.','Égoutte, ajoute le jambon en lanières.','Hors du feu, mélange avec le fromage blanc et l’emmental.','Répartis.']),
+ RC('boulettesbr','Boulettes de bœuf sauce tomate & riz','🍅','boeuf',30,4,[['boeufh',120],['rizb',70],['tomatec',150],['courgette',120],['oignon',30],['huile',5]],['Herbes de Provence','Ail'],['Laisse décongeler les steaks, forme des boulettes, fais-les dorer 6 min.','Ajoute oignon et courgette en dés 5 min.','Verse les tomates et les herbes : 12 min à feu doux.','Cuis le riz et répartis.'])
 ];
 /* Week-end : repas rapides à faire sur le moment (1 portion) */
 var QUICK=[
@@ -1089,61 +1139,88 @@ var QUICK=[
  RC('q_rizoeufs','Riz, œufs au plat & haricots rouges épicés','🍚','oeuf',20,0,[['rizb',70],['oeuf',120],['haricotr',100],['tomatec',80],['huile',5]],['Paprika','Cumin'],['Cuis le riz.','Chauffe haricots et tomates avec les épices 5 min.','Cuis 2 œufs au plat et sers sur le riz.']),
  RC('q_wrapthon','Wraps thon, fromage blanc & crudités','🌯','thon',10,0,[['tortilla',120],['thon',112],['fblanc',60],['carotte',60],['concombre',80]],['Sel, poivre, herbes'],['Mélange thon et fromage blanc assaisonné.','Garnis les wraps avec carotte râpée et concombre, roule.']),
  RC('q_steakriz','Steak haché, riz & haricots verts','🥩','boeuf',20,0,[['boeufh',100],['rizb',70],['hverts',150],['huile',4]],[],['Cuis le riz et les haricots verts.','Poêle le steak 3-4 min par face.']),
- RC('q_pouletsoja','Poulet sauté soja, pâtes & brocolis','🍗','poulet',20,0,[['poulet',120],['pates',75],['brocoli',150],['soja',10],['huile',5]],['Ail'],['Cuis les pâtes et les brocolis ensemble (brocolis les 5 dernières min).','Fais dorer le poulet, ajoute la sauce soja et mélange le tout.'])
+ RC('q_pouletsoja','Poulet sauté soja, pâtes & brocolis','🍗','poulet',20,0,[['poulet',120],['pates',75],['brocoli',150],['soja',10],['huile',5]],['Ail'],['Cuis les pâtes et les brocolis ensemble (brocolis les 5 dernières min).','Fais dorer le poulet, ajoute la sauce soja et mélange le tout.']),
+ RC('q_croque','Croque-monsieur à la poêle + salade','🥪','jambon',10,0,[['pain',112],['jambon',80],['emmental',25],['salade',60],['huile',4]],[],['Monte 2 croques : pain, jambon, emmental, pain.','Dore-les 3 min par face à la poêle à feu moyen, couvercle mis.','Sers avec la salade.']),
+ RC('q_saumonpdt','Saumon, pommes de terre & salade','🐟','saumon',20,0,[['saumon',125],['pdt',220],['salade',60],['huile',6]],['Citron (option)'],['Cuis les pommes de terre en dés 12 min à l’eau.','Poêle le saumon 4 + 3 min.','Sers avec la salade.']),
+ RC('q_dindegnocchi','Dinde & gnocchi poêlés aux champignons','🍄','dinde',20,0,[['dinde',120],['gnocchi',200],['champi',120],['huile',6]],['Ail','Persil'],['Dore les gnocchi 6 min, réserve.','Dore la dinde en lanières et les champignons 7 min.','Remets les gnocchi, mélange.'])
 ];
 var REC={};RECIPES.concat(QUICK).forEach(function(r){REC[r.id]=r;});
 var BFS=[
  {id:'b1',name:'Porridge avoine-lait-banane + beurre de cacahuète',emo:'🥣',ing:[['avoine',60],['lait',250],['banane',120],['cacahuete',15]]},
  {id:'b2',name:'Omelette 2 œufs + 2 tartines de pain complet',emo:'🍳',ing:[['oeuf',120],['pain',56],['huile',3]]},
  {id:'b3',name:'Fromage blanc, flocons d’avoine, pomme & miel',emo:'🍎',ing:[['fblanc',200],['avoine',40],['pomme',150],['miel',8]]},
- {id:'b4',name:'Tartines beurre de cacahuète + verre de lait',emo:'🥜',ing:[['pain',84],['cacahuete',20],['lait',250]]}
+ {id:'b4',name:'Tartines beurre de cacahuète + verre de lait',emo:'🥜',ing:[['pain',84],['cacahuete',20],['lait',250]]},
+ {id:'b5',name:'Tartines au jambon + yaourt nature',emo:'🥪',ing:[['pain',56],['jambon',40],['yaourt',125]]},
+ {id:'b6',name:'Yaourts, flocons d’avoine & banane',emo:'🍌',ing:[['yaourt',250],['avoine',40],['banane',120]]}
 ];
 var SNACKS=[
  {id:'s1',name:'Skyr, fruits rouges & flocons d’avoine',emo:'🍓',ing:[['skyr',150],['fruitsr',100],['avoine',30]]},
  {id:'s2',name:'2 œufs durs + 1 pomme',emo:'🥚',ing:[['oeuf',120],['pomme',150]]},
  {id:'s3',name:'Fromage blanc, banane & beurre de cacahuète',emo:'🍌',ing:[['fblanc',200],['banane',120],['cacahuete',15]]},
- {id:'s4',name:'Verre de lait + tartine beurre de cacahuète',emo:'🥛',ing:[['lait',250],['pain',28],['cacahuete',15]]}
+ {id:'s4',name:'Verre de lait + tartine beurre de cacahuète',emo:'🥛',ing:[['lait',250],['pain',28],['cacahuete',15]]},
+ {id:'s5',name:'Wrap jambon & fromage blanc',emo:'🌯',ing:[['tortilla',60],['jambon',40],['fblanc',50]]},
+ {id:'s6',name:'Skyr + orange',emo:'🍊',ing:[['skyr',150],['orange',150]]}
 ];
 var DK=['lun','mar','mer','jeu','ven','sam','dim'],DKN={lun:'Lundi',mar:'Mardi',mer:'Mercredi',jeu:'Jeudi',ven:'Vendredi',sam:'Samedi',dim:'Dimanche'};
+/* ---------- Goûts : adaptation des recettes ---------- */
+function tasteOf(k){return (S.taste||{})[k]||0;}
+function tasteSig(){return JSON.stringify([S.taste||{},S.badRec||{}]);}
+var GRP={volaille:['poulet','dinde'],veg:['brocoli','hverts','poelee','courgette','poivron','epinards','champi','chouf','petitpois','aubergine','carotte'],cru:['tomate','concombre','carotte','salade'],fec:['rizb','pates_b','pates','semoule','pdt','patated','nouilles','gnocchi'],leg:['haricotr','haricotb','poischiche'],laitier:['fblanc','skyr','yaourt'],fruit:['banane','pomme','orange','fruitsr'],pain:['pain','tortilla'],fromage:['emmental','mozza']};
+var DROP=/^(oignon|laitcoco|mais|miel|soja|emmental|mozza|avocat|cacahuete)$/;
+function grpOf(k,ctx){if(ctx&&ctx.indexOf('salade')>=0||ctx&&ctx.indexOf('concombre')>=0||ctx&&ctx.indexOf('tomate')>=0){if(GRP.cru.indexOf(k)>=0)return 'cru';}for(var g in GRP)if(GRP[g].indexOf(k)>=0)return g;return null;}
+function bestSub(k,used){var g=grpOf(k,used);if(!g)return null;var c=GRP[g].filter(function(x){return x!==k&&tasteOf(x)>=0&&used.indexOf(x)<0;});c.sort(function(a,b){return tasteOf(b)-tasteOf(a);});return c[0]||null;}
+function adapt(rc){
+ var used=rc.ing.map(function(x){return x[0];}),out=[],swaps=[],ok=true;
+ rc.ing.forEach(function(x){var k=x[0];if(tasteOf(k)>=0){out.push(x);return;}
+  var s=bestSub(k,used);
+  if(s){var g=x[1],gr=grpOf(k,used);if(gr==='fec'||gr==='leg'||gr==='pain')g=Math.round(x[1]*ING[k][1]/ING[s][1]);out.push([s,g]);used.push(s);swaps.push([k,s]);return;}
+  if(DROP.test(k)){swaps.push([k,null]);return;}
+  ok=false;});
+ return {ok:ok,ing:out,swaps:swaps};
+}
+function recOK(rc){return !(S.badRec||{})[rc.id]&&adapt(rc).ok;}
+function likeScore(rc){var s=0;adapt(rc).ing.forEach(function(x){if(tasteOf(x[0])>0)s++;});return s;}
+function shortName(k){var SH={poulet:'poulet',dinde:'dinde',boeufh:'steak haché',oeuf:'œufs',thon:'thon',saumon:'saumon',crevettes:'crevettes',jambon:'jambon',sardines:'sardines',tofu:'tofu',rizb:'riz',pates:'pâtes',pates_b:'pâtes',semoule:'semoule',pdt:'pommes de terre',patated:'patate douce',nouilles:'nouilles',gnocchi:'gnocchi',poelee:'légumes',fblanc:'fromage blanc'};return SH[k]||ING[k][0].replace(/\s*\(.*\)/,'').toLowerCase();}
+function swapTxt(sw){if(!sw||!sw.length)return '';return '🔁 Adapté à tes goûts : '+sw.map(function(s){return s[1]?shortName(s[0])+' → '+shortName(s[1]):'sans '+shortName(s[0]);}).join(', ');}
+
 function npS(){if(!S.np||typeof S.np!=='object')S.np={n:2,weeks:{},we:'plan'};if(!S.np.weeks)S.np.weeks={};if(!S.np.n)S.np.n=2;if(!S.np.we)S.np.we='plan';return S.np;}
 function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
 function hstr(s){var h=7;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return h;}
 function sessCfg(n){return n===3?[{d:'dim',lb:'Dimanche',off:-1,covers:['lun','mar']},{d:'mar',lb:'Mardi soir',off:1,covers:['mer','jeu']},{d:'jeu',lb:'Jeudi soir',off:3,covers:['ven']}]:[{d:'dim',lb:'Dimanche',off:-1,covers:['lun','mar','mer']},{d:'mer',lb:'Mercredi soir',off:2,covers:['jeu','ven']}];}
 function prevIds(wk){var p=npS().weeks[addDays(wk,-7)],a=[];if(p&&p.sess)p.sess.forEach(function(s){a.push(s.l,s.dn);});return a;}
 function genSess(wk,seed,n){
- var r=rng(hstr(wk)+seed*7919+n*13),ids=RECIPES.map(function(x){return x.id;});
+ var r=rng(hstr(wk)+seed*7919+n*13),pool=RECIPES.filter(recOK);if(pool.length<2)pool=RECIPES.slice();var ids=pool.map(function(x){return x.id;});
  for(var i=ids.length-1;i>0;i--){var j=Math.floor(r()*(i+1)),t=ids[i];ids[i]=ids[j];ids[j]=t;}
- var prev=prevIds(wk);ids=ids.filter(function(x){return prev.indexOf(x)<0;}).concat(ids.filter(function(x){return prev.indexOf(x)>=0;}));
- var used={},out=[];
- sessCfg(n).forEach(function(c){var l=null,dn=null;
-  for(var k=0;k<ids.length;k++){if(!used[ids[k]]){l=ids[k];used[l]=1;break;}}
-  for(var k2=0;k2<ids.length;k2++){var id=ids[k2];if(used[id])continue;if(REC[id].prot===REC[l].prot)continue;dn=id;used[id]=1;break;}
-  if(!dn)for(var k3=0;k3<ids.length;k3++)if(!used[ids[k3]]){dn=ids[k3];used[dn]=1;break;}
-  out.push({d:c.d,l:l,dn:dn});});
+ var prev=prevIds(wk),key=function(id){return (prev.indexOf(id)<0?2:0)+(likeScore(REC[id])>0?1:0);};
+ ids=ids.map(function(id,i){return [id,i];}).sort(function(a,b){return key(b[0])-key(a[0])||a[1]-b[1];}).map(function(x){return x[0];});
+ var used={},out=[],pos=0;
+ function next(excl){for(var k=0;k<ids.length;k++){var id=ids[k];if(used[id])continue;if(excl&&REC[id].prot===excl)continue;used[id]=1;return id;}return null;}
+ sessCfg(n).forEach(function(c){var l=next()||ids[(pos++)%ids.length];var dn=next(REC[l].prot)||next()||ids[(pos++)%ids.length];out.push({d:c.d,l:l,dn:dn});});
  return out;
 }
-function npWeek(wk){var np=npS(),w=np.weeks[wk];if(!w||w.n!==np.n||!w.sess){var old=w||{};w={seed:old.seed||0,n:np.n,checked:old.checked||{},eaten:old.eaten||{}};w.sess=genSess(wk,w.seed,np.n);np.weeks[wk]=w;var ks=Object.keys(np.weeks).sort();while(ks.length>8){delete np.weeks[ks.shift()];}}return w;}
+function npWeek(wk){var np=npS(),w=np.weeks[wk],sig=tasteSig();if(!w||w.n!==np.n||!w.sess||w.sig!==sig){var old=w||{};w={seed:old.seed||0,n:np.n,checked:old.checked||{},eaten:old.eaten||{},sig:sig};w.sess=genSess(wk,w.seed,np.n);np.weeks[wk]=w;var ks=Object.keys(np.weeks).sort();while(ks.length>8){delete np.weeks[ks.shift()];}}return w;}
 function mac(ing,f){var t={kcal:0,p:0,c:0,f:0,fib:0};ing.forEach(function(x){var I=ING[x[0]];if(!I)return;var g=x[1]*(f||1)/100;t.kcal+=I[1]*g;t.p+=I[2]*g;t.c+=I[3]*g;t.f+=I[4]*g;t.fib+=I[5]*g;});return t;}
 function avgOf(arr,k){var s=0;arr.forEach(function(x){s+=mac(x.ing)[k];});return s/arr.length;}
 function extraK(){return avgOf(SNACKS,'kcal')+avgOf(BFS,'kcal');}
 function extraP(){return avgOf(SNACKS,'p')+avgOf(BFS,'p');}
 function rnd(g){return g<30?Math.round(g):g<120?Math.round(g/5)*5:Math.round(g/10)*10;}
-var PROTK=/^(poulet|boeufh|oeuf|thon)$/;
+var PROTK=/^(poulet|boeufh|oeuf|thon|dinde|jambon|saumon|crevettes|sardines|tofu)$/;
 function isProtIng(k){return PROTK.test(k);}
 function rIng(rc){
- var K=num(S.goals.kcal)||1900,P=num(S.goals.p)||96,M=(K-extraK())/2,Pm=(P*1.1-extraP())/2;
- var FIX=/^(soja|miel|emmental)$/,LIM=/^(poischiche|haricotr|lentilles|mais|laitcoco|fblanc)$/;
+ var base=adapt(rc).ing,K=num(S.goals.kcal)||1900,P=num(S.goals.p)||96,M=(K-extraK())/2,Pm=(P*1.1-extraP())/2;
+ var FIX=/^(soja|miel|emmental|mozza)$/,LIM=/^(poischiche|haricotr|haricotb|lentilles|mais|laitcoco|fblanc|avocat)$/;
  function grp(x){return isProtIng(x[0])?'p':FIX.test(x[0])?'x':LIM.test(x[0])?'l':'o';}
- var G={p:[],x:[],l:[],o:[]};rc.ing.forEach(function(x){G[grp(x)].push(x);});
+ var G={p:[],x:[],l:[],o:[]};base.forEach(function(x){G[grp(x)].push(x);});
  var mp=mac(G.p),mx=mac(G.x),ml=mac(G.l),mo=mac(G.o),fp=1,fo=1,fl=1;
- for(var it=0;it<5;it++){fl=Math.min(fo,1.2);fo=mo.kcal?Math.max(0.6,Math.min(2.4,(M-mp.kcal*fp-mx.kcal-ml.kcal*fl)/mo.kcal)):1;fl=Math.min(fo,1.2);fp=mp.p?Math.max(0.6,Math.min(1.4,(Pm-mo.p*fo-ml.p*fl)/mp.p)):1;}
+ for(var it=0;it<5;it++){fl=Math.min(fo,1.2);fo=mo.kcal?Math.max(0.6,Math.min(2.4,(M-mp.kcal*fp-mx.kcal-ml.kcal*fl)/mo.kcal)):1;fl=Math.min(fo,1.2);fp=mp.p?Math.max(0.6,Math.min(1.5,(Pm-mo.p*fo-ml.p*fl)/mp.p)):1;}
  var F={p:fp,x:1,l:fl,o:fo};
- return rc.ing.map(function(x){return [x[0],rnd(x[1]*F[grp(x)])];});}
+ return base.map(function(x){return [x[0],rnd(x[1]*F[grp(x)])];});}
 function rMac(rc){return mac(rIng(rc));}
-function snackOf(i){return SNACKS[i%SNACKS.length];}
-function bfOf(i){return BFS[(i+1)%BFS.length];}
+function okList(arr){var a=arr.map(function(x){var r=adapt(x);return r.ok&&!(S.badRec||{})[x.id]?Object.assign({},x,{ing:r.ing,swaps:r.swaps}):null;}).filter(Boolean);return a.length?a:arr;}
+function snackOf(i){var a=okList(SNACKS);return a[i%a.length];}
+function bfOf(i){var a=okList(BFS);return a[(i+1)%a.length];}
 function sessOfDay(w,day){var cfg=sessCfg(w.n);for(var i=0;i<cfg.length;i++)if(cfg[i].covers.indexOf(day)>=0)return {c:cfg[i],s:w.sess[i]};return null;}
-function weQuick(w,wk,day){if(npS().we==='free')return null;var h=Math.abs(hstr(wk)+(w.seed||0)*31),o=day==='sam'?0:2;return {l:QUICK[(h+o)%QUICK.length],dn:QUICK[(h+o+1)%QUICK.length]};}
+function weQuick(w,wk,day){if(npS().we==='free')return null;var q=QUICK.filter(recOK);if(!q.length)q=QUICK;var h=Math.abs(hstr(wk)+(w.seed||0)*31),o=day==='sam'?0:2;return {l:q[(h+o)%q.length],dn:q[(h+o+1)%q.length]};}
 function dayPlan(w,day,wk){var x=sessOfDay(w,day),i=DK.indexOf(day),q=(!x&&wk)?weQuick(w,wk,day):null;return {l:x?REC[x.s.l]:q?q.l:null,dn:x?REC[x.s.dn]:q?q.dn:null,sn:snackOf(i),bf:bfOf(i),c:x?x.c:null,quick:!!q};}
 function defaultWk(){var t=today(),dow=(parseD(t).getDay()+6)%7;return dow===6?addDays(weekStart(t),7):weekStart(t);}
 function addM(a,b){return {kcal:a.kcal+b.kcal,p:a.p+b.p,c:a.c+b.c,f:a.f+b.f,fib:a.fib+b.fib};}
@@ -1156,7 +1233,7 @@ function fmtQty(k,g){var I=ING[k];if(I[7]){var n=Math.max(1,Math.ceil(g/I[8]-0.1
 function fmtQtyTxt(k,g){return fmtQty(k,g).replace(/<[^>]+>/g,'');}
 
 /* ---------- Vues ---------- */
-function nSeg(){var t=UI.ftab||'plan';return '<div class="seg">'+[['plan','📅 Plan'],['prep','🍳 Meal prep'],['courses','🛒 Lidl'],['journal','📖 Journal']].map(function(x){return '<button class="'+(t===x[0]?'on':'')+'" data-act="ftab" data-t="'+x[0]+'">'+x[1]+'</button>';}).join('')+'</div>';}
+function nSeg(){var t=UI.ftab||'plan';return '<div class="seg seg6">'+[['plan','📅 Plan'],['prep','🍳 Meal prep'],['courses','🛒 Lidl'],['gouts','❤️ Mes goûts'],['frigo','🧊 Frigo'],['journal','📖 Journal']].map(function(x){return '<button class="'+(t===x[0]?'on':'')+'" data-act="ftab" data-t="'+x[0]+'">'+x[1]+'</button>';}).join('')+'</div>';}
 function weekNav(wk){var d=parseD(wk),e=parseD(addDays(wk,6));return '<div class="row sp card" style="padding:8px"><button class="ibtn" data-act="npw" data-d="-1">‹</button><div style="text-align:center"><b>Semaine du '+d.getDate()+' '+MSH[d.getMonth()]+'</b><div class="sub" style="font-size:12px">au '+e.getDate()+' '+MSH[e.getMonth()]+(wk===weekStart(today())?' · en cours':wk===addDays(weekStart(today()),7)?' · prochaine':'')+'</div></div><button class="ibtn" data-act="npw" data-d="1">›</button></div>';}
 function curWk(){var wk=UI.npw||defaultWk(),min=weekStart(today());if(wk<min)wk=min;return wk;}
 function mline(m){return fmt(m.kcal)+' kcal · <b style="color:var(--p)">P '+Math.round(m.p)+' g</b> · G '+Math.round(m.c)+' g · L '+Math.round(m.f)+' g';}
@@ -1188,7 +1265,7 @@ function vPrep(){
  cfg.forEach(function(c,i){var s=w.sess[i],por=c.covers.length;
   h+='<div class="card"><div class="row sp"><div><span class="pill acc">🍳 '+c.lb+' '+sessDate(wk,c)+'</span><h2 style="margin:8px 0 2px">Pour '+c.covers.map(function(d){return DKN[d].toLowerCase();}).join(', ')+'</h2><div class="sub">'+por*2+' boîtes · environ '+(Math.max(REC[s.l].time,REC[s.dn].time)+20)+' min en cuisinant les deux en parallèle</div></div></div>';
   [[s.l,'Déjeuners'],[s.dn,'Dîners']].forEach(function(x){var rc=REC[x[0]],ing=rIng(rc),m=mac(ing);
-   h+='<div class="recb"><div class="row sp"><b style="font-size:15px">'+rc.emo+' '+esc(rc.name)+'</b></div><div class="sub">'+x[1]+' · × '+por+' portions · ≈ '+eur(costOf(ing))+' la portion</div><div class="sub">Par portion : '+mline(m)+'</div>';
+   h+='<div class="recb"><div class="row sp"><b style="font-size:15px">'+rc.emo+' '+esc(rc.name)+'</b></div><div class="sub">'+x[1]+' · × '+por+' portions · ≈ '+eur(costOf(ing))+' la portion</div><div class="sub">Par portion : '+mline(m)+'</div>'+(adapt(rc).swaps.length?'<div class="sub" style="font-size:12px;color:var(--acc)">'+esc(swapTxt(adapt(rc).swaps))+'</div>':'');
    h+='<div class="ingl">'+ing.map(function(it){return '<div class="kv"><span>'+esc(ING[it[0]][0])+'</span><span>'+fmtQty(it[0],it[1]*por)+'</span></div>';}).join('')+(rc.extra.length?'<div class="sub" style="margin-top:4px;font-size:12px">+ '+rc.extra.join(', ')+'</div>':'')+'</div>';
    h+='<ol class="steps">'+rc.steps.map(function(st){return '<li>'+esc(st)+'</li>';}).join('')+'</ol><div class="sub" style="font-size:12px">🧊 Boîtes hermétiques au frigo, '+rc.keep+' jours max'+(rc.prot==='thon'?' (le poisson se garde moins longtemps : mange-le en premier)':'')+'.</div></div>';});
   h+='</div>';});
@@ -1220,10 +1297,84 @@ function vCourses(){
 function shopText(){var wk=curWk(),w=npWeek(wk),f=UI.npf==null?null:UI.npf,sh=shopItems(wk,w,f),d=parseD(wk),out='🛒 Courses Lidl – semaine du '+d.getDate()+' '+MSH[d.getMonth()]+'\n';
  RAYONS.forEach(function(ry,ri){var ks=Object.keys(sh.agg).filter(function(k){return LIDL[k]&&ING[k][6]===ri;});if(!ks.length)return;out+='\n'+ry+'\n';ks.forEach(function(k){var n=packsOf(k,sh.agg[k]);out+=(w.checked[k]?'☑ ':'☐ ')+LIDL[k][0]+' × '+n+' ('+eur(n*LIDL[k][2])+')\n';});});
  out+='\nTotal estimé : '+eur(sh.pay)+(sh.stock?' (+ placard '+eur(sh.stock)+')':'')+'\nÉpices : '+sh.extras.join(', ');return out;}
-function recipeSheet(id){var rc=REC[id];if(!rc)return;var ing=rIng(rc),m=mac(ing);
+/* ---------- Onglet Mes goûts ---------- */
+var NOTASTE=/^(huile|soja)$/;
+function vGouts(){
+ var ok=RECIPES.filter(recOK).length,qk=QUICK.filter(recOK).length,nl=0,nd=0;Object.keys(S.taste||{}).forEach(function(k){if(S.taste[k]>0)nl++;else nd++;});
+ var h='<div class="card hero"><h2 style="margin-bottom:4px">❤️ Ce que tu aimes</h2><div class="sub">Pour chaque aliment : <b>❤️ j’adore</b> (proposé plus souvent), <b>👌 ça va</b>, <b>🚫 je n’aime pas</b> (plus jamais proposé). Les menus, le meal prep, les courses Lidl et le frigo s’adaptent tout de suite.</div><div class="row sp" style="margin-top:10px"><span class="pill">❤️ '+nl+' · 🚫 '+nd+'</span><span class="pill acc">'+ok+' plats meal prep · '+qk+' plats rapides</span></div>'+(ok<4?'<div class="nudge">Il reste peu de plats avec tes goûts : les menus vont se répéter. Essaie de passer quelques 🚫 en 👌.</div>':'')+'</div>';
+ h+='<div class="sub" style="margin:0 2px 4px">💡 Si tu n’aimes pas un légume ou un féculent, il est remplacé par un autre que tu aimes. Si c’est la viande ou le poisson principal, le plat est retiré.</div>';
+ RAYONS.forEach(function(ry,ri){var ks=Object.keys(ING).filter(function(k){return ING[k][6]===ri&&!NOTASTE.test(k);}).sort(function(a,b){return ING[a][0].localeCompare(ING[b][0]);});if(!ks.length)return;
+  h+='<h3>'+ry.replace(' (dure plusieurs semaines)','')+'</h3><div class="card" style="padding:4px 14px">'+ks.map(function(k){var t=tasteOf(k);return '<div class="trow"><span class="nm">'+esc(ING[k][0].replace(/\s*\((surgelés?|surgelée|conserve)\)/,''))+'<span class="sub" style="display:block;font-size:11px">'+r1(ING[k][2]).toString().replace('.',',')+' g prot. / 100 g</span></span><span class="tb"><button class="'+(t>0?'on':'')+'" data-act="taste" data-k="'+k+'" data-v="1">❤️</button><button class="'+(t===0?'on':'')+'" data-act="taste" data-k="'+k+'" data-v="0">👌</button><button class="'+(t<0?'on':'')+'" data-act="taste" data-k="'+k+'" data-v="-1">🚫</button></span></div>';}).join('')+'</div>';});
+ var bad=Object.keys(S.badRec||{}).filter(function(id){return REC[id];});
+ h+='<h3>🚫 Plats que tu ne veux plus</h3><div class="card" style="padding:4px 14px">'+(bad.length?bad.map(function(id){return '<div class="trow"><span class="nm">'+REC[id].emo+' '+esc(REC[id].name)+'</span><button class="btn sm" data-act="unbad" data-id="'+id+'">Remettre</button></div>';}).join(''):'<div class="sub" style="padding:8px 0">Aucun. Dans une recette, touche « Je n’aime pas ce plat » pour la retirer.</div>')+'</div>';
+ h+='<button class="btn blk" data-act="tasteReset" style="margin-top:4px">Tout remettre à zéro</button>';
+ return h;
+}
+
+/* ---------- Onglet Frigo ---------- */
+var GEN={},NOCORE=/^(huile|soja|miel)$/;
+var PROT_ORDER=['poulet','dinde','boeufh','oeuf','thon','saumon','crevettes','jambon','sardines','tofu'];
+function frHas(k){return !!(S.fridge||{})[k];}
+function frPick(list,n){var a=list.filter(function(k){return frHas(k)&&tasteOf(k)>=0;});a.sort(function(x,y){return tasteOf(y)-tasteOf(x);});return a.slice(0,n||1);}
+function genFridge(){
+ GEN={};var out=[];
+ var prot=frPick(PROT_ORDER,2),fec=frPick(GRP.fec,1)[0],veg=frPick(GRP.veg.concat(['tomate']),2),cru=frPick(GRP.cru.concat(['avocat']),2),leg=frPick(GRP.leg,1)[0];
+ function add(id,name,emo,ing,steps,ex){var rc=RC(id,name,emo,'gen',15,0,ing,ex||['Sel, poivre, épices au choix'],steps);rc.gen=1;GEN[id]=rc;out.push(rc);}
+ var p=prot[0];
+ if(p&&fec&&veg.length&&p!=='sardines'){var pg=p==='oeuf'?120:p==='jambon'?80:120,cooked=/^(thon|jambon|crevettes)$/.test(p);
+  add('g_poelee','Poêlée express : '+shortName(p)+', '+shortName(fec)+' & '+veg.map(shortName).join(', '),'🍳',[[p,pg],[fec,fec==='pdt'?220:fec==='patated'?230:fec==='gnocchi'?200:70]].concat(veg.map(function(v,i){return [v,i?100:150];})).concat([['huile',6]]),
+   ['Cuis le féculent ('+shortName(fec)+') à l’eau ou à la poêle selon le paquet.',p==='oeuf'?'Fais revenir les légumes 6-8 min, pousse-les sur le côté et brouille les œufs.':cooked?'Fais revenir les légumes 6-8 min, ajoute le '+shortName(p)+' à la fin juste pour le chauffer.':'Fais dorer le '+shortName(p)+' en morceaux 6-7 min, puis ajoute les légumes 6 min.','Mélange avec le féculent, assaisonne et sers.']);}
+ if(frHas('oeuf')&&tasteOf('oeuf')>=0&&veg.length){var ing=[['oeuf',180]].concat(veg.map(function(v){return [v,100];}));if(frHas('emmental')&&tasteOf('emmental')>=0)ing.push(['emmental',15]);if(frHas('pain')&&tasteOf('pain')>=0)ing.push(['pain',56]);ing.push(['huile',5]);
+  add('g_omelette','Omelette aux restes : '+veg.map(shortName).join(' & '),'🥚',ing,['Coupe les légumes en petits morceaux et fais-les revenir 6 min.','Verse les 3 œufs battus (et le fromage si tu en as).','Cuis 3-4 min à feu doux, plie l’omelette.'+(ing.some(function(x){return x[0]==='pain';})?' Sers avec le pain.':'')]);}
+ var bread=frPick(['tortilla','pain'],1)[0],fp=frPick(['thon','jambon','poulet','oeuf','saumon','sardines','dinde'],1)[0];
+ if(bread&&fp){var ing2=[[bread,bread==='pain'?84:120],[fp,fp==='oeuf'?120:fp==='jambon'?80:100]],sauce=frPick(GRP.laitier,1)[0];if(sauce)ing2.push([sauce,50]);cru.forEach(function(c){ing2.push([c,60]);});
+  add('g_wrap',(bread==='pain'?'Tartines':'Wraps')+' express : '+shortName(fp)+(cru.length?' & crudités':''),'🌯',ing2,[(/^(poulet|dinde|oeuf)$/.test(fp)?'Cuis le '+shortName(fp)+' (poêle ou œufs durs 10 min). ':'')+(sauce?'Mélange le '+shortName(fp)+' avec le '+shortName(sauce)+', sel, poivre.':'Émiette ou coupe le '+shortName(fp)+'.'),'Garnis '+(bread==='pain'?'les tartines':'les wraps')+(cru.length?' avec '+cru.map(shortName).join(', '):'')+' et '+(bread==='pain'?'déguste':'roule-les')+'.']);}
+ var base=fec&&/^(rizb|pates|pates_b|semoule|pdt)$/.test(fec)?fec:leg;
+ if(p&&cru.length&&base){var ing3=[[p,p==='oeuf'?120:100],[base,base===leg?150:base==='pdt'?200:60]].concat(cru.map(function(c){return [c,c==='avocat'?70:100];})).concat([['huile',8]]);
+  add('g_salade','Salade complète : '+shortName(p)+', '+shortName(base)+' & '+cru.map(shortName).join(', '),'🥗',ing3,[base===leg?'Égoutte et rince les '+shortName(base)+'.':'Cuis le '+shortName(base)+' et laisse refroidir.',/^(poulet|dinde|boeufh|saumon|tofu)$/.test(p)?'Fais cuire le '+shortName(p)+' à la poêle et coupe-le.':p==='oeuf'?'Fais des œufs durs (10 min).':'Égoutte le '+shortName(p)+'.','Coupe les crudités, mélange tout avec l’huile et un filet de vinaigre ou de citron.']);}
+ return out;
+}
+function frSuggest(){
+ var gens=genFridge(),list=[];
+ gens.forEach(function(rc){list.push({rc:rc,miss:[],have:9});});
+ RECIPES.concat(QUICK).forEach(function(rc){if(!recOK(rc))return;var ing=adapt(rc).ing.filter(function(x){return !NOCORE.test(x[0]);}),have=ing.filter(function(x){return frHas(x[0]);}).length,miss=ing.filter(function(x){return !frHas(x[0]);}).map(function(x){return x[0];});
+  var hasProt=ing.some(function(x){return isProtIng(x[0])&&frHas(x[0]);});
+  if(have>=2&&(hasProt||miss.length===0)&&miss.length<=3)list.push({rc:rc,miss:miss,have:have,lk:likeScore(rc)});});
+ list.sort(function(a,b){return a.miss.length-b.miss.length||(b.lk||0)-(a.lk||0)||b.have-a.have;});
+ return list.slice(0,8);
+}
+function vFrigo(){
+ var fr=Object.keys(S.fridge||{}).filter(function(k){return ING[k];}),sec=UI.frs||'add';
+ var h='<div class="card hero"><div class="row sp"><div><h2 style="margin:0">🧊 Mon frigo & placard</h2><div class="sub">'+(fr.length?fr.length+' aliment'+(fr.length>1?'s':'')+' : '+esc(fr.map(shortName).join(', ')):'Coche ce qu’il te reste, je te propose un plat facile que tu aimes.')+'</div></div>'+(fr.length?'<button class="btn sm" data-act="frClear">Vider</button>':'')+'</div></div>';
+ h+='<div class="seg"><button class="'+(sec==='add'?'on':'')+'" data-act="frSec" data-v="add">✏️ Ce qu’il me reste</button><button class="'+(sec==='idea'?'on':'')+'" data-act="frSec" data-v="idea">💡 Idées de plats'+(fr.length?' ('+frSuggest().length+')':'')+'</button></div>';
+ if(sec==='add'){
+  RAYONS.forEach(function(ry,ri){var ks=Object.keys(ING).filter(function(k){return ING[k][6]===ri&&!NOTASTE.test(k)&&tasteOf(k)>=0;}).sort(function(a,b){return ING[a][0].localeCompare(ING[b][0]);});if(!ks.length)return;
+   h+='<h3>'+ry.replace(' (dure plusieurs semaines)','')+'</h3><div class="chips wrap">'+ks.map(function(k){return '<span class="chip'+(frHas(k)?' on':'')+'" data-act="fr" data-k="'+k+'">'+(frHas(k)?'✓ ':'')+esc(shortName(k))+'</span>';}).join('')+'</div>';});
+  h+='<div class="sub" style="margin-top:12px">Huile, sel, poivre et épices : je considère que tu en as toujours. Les aliments que tu as marqués 🚫 n’apparaissent pas.</div>';
+  if(fr.length)h+='<button class="btn pri blk big" data-act="frSec" data-v="idea" style="margin-top:12px">💡 Voir les idées de plats</button>';
+  return h;}
+ if(!fr.length)return h+'<div class="empty">Coche d’abord ce qu’il te reste dans « Ce qu’il me reste ».</div>';
+ var sg=frSuggest();
+ if(!sg.length)return h+'<div class="empty">Pas assez d’ingrédients pour un plat complet. Ajoute au moins une source de protéines (œufs, thon, poulet, jambon…) et un féculent ou un légume.</div>';
+ h+=sg.map(function(x){var m=rMac(x.rc);return '<div class="card" data-act="recipe" data-id="'+x.rc.id+'" style="cursor:pointer"><div class="row sp" style="align-items:flex-start"><b style="font-size:15px">'+x.rc.emo+' '+esc(x.rc.name)+'</b><span class="pill'+(x.miss.length?'':' acc')+'" style="white-space:nowrap">'+(x.miss.length?'manque '+x.miss.length:'✅ tu as tout')+'</span></div><div class="sub" style="margin-top:4px">'+mline(m)+'</div>'+(x.miss.length?'<div class="sub" style="font-size:12px;margin-top:2px">🛒 Il te manque : '+esc(x.miss.map(shortName).join(', '))+'</div>':'')+'</div>';}).join('');
+ h+='<div class="sub" style="text-align:center">Touche un plat pour voir la recette et les quantités pour toi.</div>';
+ return h;
+}
+function recipeSheet(id){var rc=REC[id]||GEN[id];if(!rc)return;var ad=adapt(rc),ing=rIng(rc),m=mac(ing),fromFr=UI.ftab==='frigo';
+ sheet('<h2>'+rc.emo+' '+esc(rc.name)+'</h2><div class="sub">Pour 1 portion · '+rc.time+' min · '+(rc.keep?'se garde '+rc.keep+' jours':'à manger tout de suite')+' · ≈ '+eur(costOf(ing))+'</div>'+(ad.swaps.length?'<div class="nudge">'+esc(swapTxt(ad.swaps))+'</div>':'')+'<div class="grid3" style="margin:12px 0"><div class="stat"><b>'+fmt(m.kcal)+'</b><span>kcal</span></div><div class="stat"><b style="color:var(--p)">'+Math.round(m.p)+' g</b><span>protéines</span></div><div class="stat"><b>'+Math.round(m.c)+' / '+Math.round(m.f)+'</b><span>gluc. / lip. (g)</span></div></div>'+ing.map(function(it){return '<div class="kv"><span>'+(fromFr&&!NOCORE.test(it[0])?(frHas(it[0])?'✅ ':'🛒 '):'')+esc(ING[it[0]][0])+'</span><span>'+fmtQty(it[0],it[1])+'</span></div>';}).join('')+(rc.extra.length?'<div class="sub" style="margin:6px 0 10px">+ '+rc.extra.join(', ')+'</div>':'')+'<ol class="steps">'+rc.steps.map(function(st){return '<li>'+esc(st)+'</li>';}).join('')+'</ol>'+(fromFr?'<button class="btn pri blk" data-act="npCook" data-id="'+rc.id+'" style="margin-bottom:8px">🍳 Je cuisine ça (ajouter au journal)</button>':'')+(rc.gen?'':'<button class="btn bad blk" data-act="badRec" data-id="'+rc.id+'" style="margin-bottom:8px">🚫 Je n’aime pas ce plat</button>')+'<button class="btn blk" data-act="closeSheet">Fermer</button>');}
+
+function recipeSheetOld(id){var rc=REC[id];if(!rc)return;var ing=rIng(rc),m=mac(ing);
  sheet('<h2>'+rc.emo+' '+esc(rc.name)+'</h2><div class="sub">Pour 1 portion · '+rc.time+' min · '+(rc.keep?'se garde '+rc.keep+' jours':'à manger tout de suite')+' · ≈ '+eur(costOf(ing))+'</div><div class="grid3" style="margin:12px 0"><div class="stat"><b>'+fmt(m.kcal)+'</b><span>kcal</span></div><div class="stat"><b style="color:var(--p)">'+Math.round(m.p)+' g</b><span>protéines</span></div><div class="stat"><b>'+Math.round(m.c)+' / '+Math.round(m.f)+'</b><span>gluc. / lip. (g)</span></div></div>'+ing.map(function(it){return '<div class="kv"><span>'+esc(ING[it[0]][0])+'</span><span>'+fmtQty(it[0],it[1])+'</span></div>';}).join('')+(rc.extra.length?'<div class="sub" style="margin:6px 0 10px">+ '+rc.extra.join(', ')+'</div>':'')+'<ol class="steps">'+rc.steps.map(function(st){return '<li>'+esc(st)+'</li>';}).join('')+'</ol><button class="btn pri blk" data-act="closeSheet">Fermer</button>');}
 Object.assign(A,{
  ftab:function(d){UI.ftab=d.t;render();},
+ taste:function(d){S.taste=S.taste||{};var v=+d.v;if(!v||S.taste[d.k]===v)delete S.taste[d.k];else S.taste[d.k]=v;save(true);render(true);},
+ badRec:function(d){S.badRec=S.badRec||{};S.badRec[d.id]=1;closeSheet();save(true);render(true);toast('🚫 Recette retirée de tes menus');},
+ unbad:function(d){if(S.badRec)delete S.badRec[d.id];save(true);render(true);},
+ tasteReset:function(){S.taste={};S.badRec={};save(true);render(true);toast('Goûts remis à zéro');},
+ fr:function(d){S.fridge=S.fridge||{};if(S.fridge[d.k])delete S.fridge[d.k];else S.fridge[d.k]=1;save(true);render(true);},
+ frClear:function(){S.fridge={};save(true);render(true);},
+ frSec:function(d){UI.frs=d.v;render(true);},
+ npCook:function(d){var rc=REC[d.id]||GEN[d.id];if(!rc)return;var m=rMac(rc),hr=new Date().getHours(),sl=hr<11?'bf':hr<15?'lu':hr<18?'sn':'di';var e={id:uid(),slot:sl,name:rc.name,qty:0,qtyTxt:'1 portion (frigo)',kcal:Math.round(m.kcal),p:r1(m.p),c:r1(m.c),f:r1(m.f),fib:r1(m.fib)};(S.meals[today()]=S.meals[today()]||[]).push(e);closeSheet();save(true);render(true);toast('✓ Ajouté au journal · bon appétit !');},
  npw:function(d){var wk=addDays(curWk(),7*(+d.d)),min=weekStart(today()),max=addDays(min,21);if(wk<min||wk>max)return;UI.npw=wk;render(true);},
  npShuffle:function(){var wk=curWk(),w=npWeek(wk);w.seed=(w.seed||0)+1;w.sess=genSess(wk,w.seed,w.n);save(true);render(true);toast('🔀 Nouveaux menus pour la semaine');},
  npN:function(d){npS().n=+d.v;save(true);render(true);},
@@ -1237,6 +1388,110 @@ Object.assign(A,{
   var item=m==='l'?dp.l:m==='d'?dp.dn:m==='b'?dp.bf:dp.sn;if(!item)return;var mm=(m==='s'||m==='b')?mac(item.ing):rMac(item);
   var e={id:uid(),slot:m==='l'?'lu':m==='d'?'di':m==='b'?'bf':'sn',name:item.name,qty:0,qtyTxt:'1 portion du plan',kcal:Math.round(mm.kcal),p:r1(mm.p),c:r1(mm.c),f:r1(mm.f),fib:r1(mm.fib)};
   (S.meals[dk]=S.meals[dk]||[]).push(e);w.eaten[key]=e.id;save(true);render(true);toast('✓ Ajouté au journal');}
+});
+
+/* ---------- Cycle menstruel ---------- */
+function cyS(){if(!S.cycle||typeof S.cycle!=='object')S.cycle={};var c=S.cycle;c.periods=c.periods||[];c.log=c.log||{};c.len=c.len||28;c.plen=c.plen||5;return c;}
+function dDiff(a,b){return Math.round((parseD(b)-parseD(a))/86400000);}
+function cyPeriods(){return cyS().periods.slice().sort(function(a,b){return a.s<b.s?-1:1;});}
+function cyStats(){var c=cyS(),ps=cyPeriods(),lens=[],pl=[];
+ for(var i=1;i<ps.length;i++){var L=dDiff(ps[i-1].s,ps[i].s);if(L>=15&&L<=90)lens.push(L);}
+ ps.forEach(function(p){if(p.e){var d=dDiff(p.s,p.e)+1;if(d>=1&&d<=12)pl.push(d);}});
+ var rl=lens.slice(-6),avg=rl.length?Math.round(rl.reduce(function(a,b){return a+b;},0)/rl.length):c.len,pavg=pl.length?Math.round(pl.slice(-6).reduce(function(a,b){return a+b;},0)/Math.min(6,pl.length)):c.plen;
+ var spread=rl.length>=3?Math.max.apply(null,rl)-Math.min.apply(null,rl):0;
+ return {lens:lens,avg:Math.max(21,Math.min(45,avg)),pavg:pavg,spread:spread,n:rl.length};}
+function cyInfo(k){k=k||today();var c=cyS(),ps=cyPeriods(),st=cyStats(),last=null;
+ for(var i=ps.length-1;i>=0;i--)if(ps[i].s<=k){last=ps[i];break;}
+ if(!last)return {none:true,st:st};
+ var L=st.avg,vs=last.s,virt=false;if(k>today()){var nC=Math.floor(dDiff(last.s,k)/L);if(nC>=1){vs=addDays(last.s,nC*L);virt=true;}}
+ var day=dDiff(vs,k)+1,inP=virt?false:(last.e?k<=last.e:day<=10);
+ var ovMark=null;Object.keys(c.log).forEach(function(d){if(c.log[d].ovu&&d>=last.s&&(!ovMark||d>ovMark))ovMark=d;});
+ var ovu=!virt&&ovMark&&dDiff(last.s,ovMark)<L+5?ovMark:addDays(vs,L-14),nextP=addDays(vs,L);
+ var dO=dDiff(ovu,k),phase;
+ if(inP)phase='regles';else if(c.hormonal)phase=day>=L-4?'pre':'mid';else if(dO>=-2&&dO<=1)phase='ovu';else if(dO<-2)phase='foll';else if(dDiff(k,nextP)<=5)phase='pre';else phase='lut';
+ return {last:last,day:day,L:L,ovu:ovu,ovMarked:!!ovMark,nextP:nextP,phase:phase,inP:inP,fertS:addDays(ovu,-5),fertE:addDays(ovu,1),late:dDiff(nextP,today()),st:st,virt:virt};}
+var PHASES={
+ regles:{n:'Règles',e:'🩸',c:'#e2445c',tip:{s:'Écoute ton corps : si tu as mal ou peu d’énergie, fais la séance avec une série en moins ou juste la séance abdos douce. Bouger un peu soulage souvent les crampes.',f:'Pense au fer : steak haché, lentilles, œufs, épinards, avec un fruit riche en vitamine C (orange, kiwi). Bois bien.',b:'Le poids peut encore être un peu gonflé les premiers jours, c’est de l’eau.'}},
+ foll:{n:'Phase folliculaire',e:'🌱',c:'#3ddc97',tip:{s:'Souvent la période où on a le plus d’énergie : c’est le bon moment pour essayer d’ajouter des reps ou un peu de charge.',f:'Appétit souvent normal : suis ton plan.',b:'Le poids est généralement le plus « vrai » : bon moment pour te peser et prendre tes mensurations.'}},
+ ovu:{n:'Ovulation (estimée)',e:'🥚',c:'#5fa8ff',tip:{s:'Énergie souvent au top. Échauffe-toi bien : certaines femmes se sentent un peu plus « souples » des articulations.',f:'Rien de spécial : garde tes protéines.',b:'Petite variation possible de 0,5 kg.'}},
+ lut:{n:'Phase lutéale',e:'🌙',c:'#a64dff',tip:{s:'L’énergie peut baisser un peu et l’effort paraître plus dur : garde les mêmes charges, c’est déjà très bien.',f:'La faim augmente souvent : ajoute une collation (skyr, œufs durs, tartine de beurre de cacahuète). C’est utile pour ta prise de muscle.',b:'Le corps commence à garder un peu d’eau.'}},
+ pre:{n:'Avant les règles',e:'🌧️',c:'#ff9ec4',tip:{s:'Séance un peu plus légère si besoin. Même 20 min comptent.',f:'Envies de sucré ? Chocolat noir, banane + beurre de cacahuète, fromage blanc au miel : ça calme sans casser ton plan. Moins de sel limite les ballonnements.',b:'+1 à 2 kg d’eau, c’est normal : ce n’est pas du gras, ça repart avec les règles. Ne te pèse pas pour juger tes progrès ces jours-ci.'}},
+ mid:{n:'Milieu de plaquette',e:'💊',c:'#5fa8ff',tip:{s:'Avec une contraception hormonale, les phases naturelles sont mises en pause : entraîne-toi selon ton énergie du jour.',f:'Suis ton plan.',b:'Variations de poids surtout liées à l’eau et au sel.'}}
+};
+var LIBN=['😶 faible','🙂 normale','🔥 forte','🔥🔥 très forte'],ENN=['😩','😕','😐','🙂','⚡'],PAINN=['Aucune','Légère','Moyenne','Forte'],MOODN=['😢','😕','😐','🙂','😄'];
+var SEXI=[['douce','🕯️ Douce',2.0],['moderee','💗 Modérée',3.0],['intense','🔥 Intense',4.5]];
+function sexKcal(min,intk){var I=SEXI.find(function(x){return x[0]===intk;})||SEXI[1];return Math.round(I[2]*num(min)*num(S.profile.weight||48)/60);}
+function cyAlert(info){var st=info.st,msgs=[];
+ if(!info.none&&!cyS().hormonal&&info.late>=10)msgs.push('Tes règles ont '+info.late+' jours de retard par rapport à ton cycle habituel.');
+ if(st.n>=3&&st.spread>=9)msgs.push('Tes cycles varient beaucoup ('+Math.min.apply(null,st.lens.slice(-6))+' à '+Math.max.apply(null,st.lens.slice(-6))+' jours).');
+ if(st.lens.slice(-3).some(function(l){return l>38;}))msgs.push('Certains cycles sont très longs (plus de 38 jours).');
+ if(st.lens.slice(-3).some(function(l){return l<21;}))msgs.push('Certains cycles sont très courts (moins de 21 jours).');
+ if(!msgs.length)return '';
+ return '<div class="card" style="border-color:#ffb547"><b>⚠️ À surveiller</b><div class="sub" style="margin-top:4px">'+msgs.join(' ')+' Ça peut arriver (stress, fatigue, voyage…), mais quand on commence le sport, des règles irrégulières ou absentes peuvent aussi vouloir dire que le corps manque d’énergie : mange bien tous tes repas, et parles-en à un médecin ou à un·e gynécologue si ça continue.</div></div>';}
+function cyCal(){var off=UI.cyOff||0,now=new Date(),base=new Date(now.getFullYear(),now.getMonth()+off,1),y=base.getFullYear(),m=base.getMonth(),n=new Date(y,m+1,0).getDate(),fd=(base.getDay()+6)%7,c=cyS(),t=today(),sel=UI.cyD||t;
+ var h='<div class="card"><div class="row sp" style="margin-bottom:8px"><button class="ibtn" data-act="cyCal" data-d="-1">‹</button><b>'+MONTHS[m]+' '+y+'</b><button class="ibtn" data-act="cyCal" data-d="1">›</button></div><div class="cyg">'+['L','M','M','J','V','S','D'].map(function(x){return '<span class="cyh">'+x+'</span>';}).join('');
+ for(var i=0;i<fd;i++)h+='<span></span>';
+ for(var d=1;d<=n;d++){var k=y+'-'+pad(m+1)+'-'+pad(d),inf=cyInfo(k),cls='cyd',lg=c.log[k]||{};
+  if(!inf.none){if(inf.phase==='regles'&&k<=t)cls+=' p';else if(k>t&&((inf.virt&&inf.day<=inf.st.pavg)||(dDiff(inf.nextP,k)>=0&&dDiff(inf.nextP,k)<inf.st.pavg)))cls+=' pp';else if(!c.hormonal&&k===inf.ovu)cls+=' ov';else if(!c.hormonal&&k>=inf.fertS&&k<=inf.fertE)cls+=' fe';}
+  if(k===t)cls+=' td';if(k===sel)cls+=' sel';
+  h+='<span class="'+cls+'" data-act="cyDay" data-k="'+k+'">'+d+((lg.sex&&lg.sex.length)?'<i>♥</i>':lg.ovu?'<i>•</i>':'')+'</span>';}
+ h+='</div><div class="cyleg"><span><b class="p"></b>Règles</span><span><b class="pp"></b>Prévues</span>'+(c.hormonal?'':'<span><b class="fe"></b>Fertile (estim.)</span><span><b class="ov"></b>Ovulation</span>')+'<span>♥ Intimité</span></div></div>';
+ return h;}
+function chipRow(field,arr,val,k){return '<div class="chips wrap">'+arr.map(function(lb,i){return '<span class="chip'+(val===i?' on':'')+'" data-act="cyLog" data-f="'+field+'" data-v="'+i+'" data-k="'+k+'">'+lb+'</span>';}).join('')+'</div>';}
+function vCycle(){
+ var c=cyS(),t=today(),k=UI.cyD||t,info=cyInfo(t),lg=c.log[k]||{},h='<div class="row sp"><h1>Mon cycle</h1><span class="pill">🔒 sur ton téléphone</span></div>';
+ if(info.none){h+='<div class="card hero"><h2>🩸 Commençons</h2><div class="sub">Indique le premier jour de tes dernières règles (ou de tes règles actuelles). L’appli calculera la suite et s’améliorera à chaque cycle.</div><label class="f" style="margin-top:10px"><span>Premier jour des dernières règles</span><input type="date" id="cy_first" max="'+t+'" value="'+t+'"></label><div class="grid2"><label class="f"><span>Durée du cycle (jours)</span><input id="cy_len" inputmode="numeric" value="'+c.len+'"></label><label class="f"><span>Durée des règles</span><input id="cy_plen" inputmode="numeric" value="'+c.plen+'"></label></div><div class="sub" style="font-size:12px">Tu ne sais pas ? Laisse 28 et 5 jours, c’est la moyenne.</div><button class="btn pri blk big" data-act="cyStart1" style="margin-top:10px">C’est parti</button></div>';return h;}
+ var P=PHASES[info.phase],toNext=dDiff(t,info.nextP);
+ h+='<div class="card hero"><div class="row" style="gap:14px"><div class="cyring" style="--cc:'+P.c+'"><b>J'+info.day+'</b><span>sur ~'+info.L+'</span></div><div class="grow"><div style="font-size:18px;font-weight:800">'+P.e+' '+P.n+'</div><div class="sub">'+(info.inP?'Règles en cours (jour '+info.day+')':toNext>0?'Prochaines règles dans <b style="color:var(--tx)">'+toNext+' j</b> · '+fmtShort(info.nextP):toNext===0?'Règles prévues <b style="color:var(--tx)">aujourd’hui</b>':'Règles en retard de '+(-toNext)+' j')+'</div>'+(c.hormonal?'':'<div class="sub">Ovulation '+(info.ovMarked?'notée':'estimée')+' : '+fmtShort(info.ovu)+'</div>')+'</div></div>';
+ h+='<div class="grid2" style="margin-top:12px">'+(info.inP?'<button class="btn pri" data-act="cyEnd">✅ Règles terminées</button>':'<button class="btn pri" data-act="cyStart">🩸 Mes règles ont commencé</button>')+(c.hormonal?'<button class="btn" data-act="cyIntTog">❤️ Intimité</button>':'<button class="btn'+((c.log[t]||{}).ovu?' pri':'')+'" data-act="cyOvu">🥚 '+((c.log[t]||{}).ovu?'Ovulation notée':'Ovulation aujourd’hui')+'</button>')+'</div></div>';
+ h+=cyAlert(info);
+ h+='<div class="card"><h2>'+P.e+' Conseils du moment</h2><div class="kv" style="display:block"><b>🏋️ Séance</b><div class="sub">'+P.tip.s+'</div></div><div class="kv" style="display:block"><b>🍽️ Nutrition</b><div class="sub">'+P.tip.f+'</div></div><div class="kv" style="display:block"><b>⚖️ Balance</b><div class="sub">'+P.tip.b+'</div></div></div>';
+ h+=cyCal();
+ var isT=k===t;
+ h+='<div class="card"><h2>📝 '+(isT?'Comment ça va aujourd’hui ?':'Le '+fmtDate(k))+'</h2>';
+ h+='<div class="sub" style="margin:6px 0 4px">Énergie</div>'+chipRow('energy',ENN,lg.energy,k);
+ h+='<div class="sub" style="margin:10px 0 4px">Douleurs / crampes</div>'+chipRow('pain',PAINN,lg.pain,k);
+ h+='<div class="sub" style="margin:10px 0 4px">Humeur</div>'+chipRow('mood',MOODN,lg.mood,k);
+ h+='<div class="sub" style="margin:10px 0 4px">Libido</div>'+chipRow('libido',LIBN,lg.libido,k);
+ h+='<div class="chips wrap" style="margin-top:10px"><span class="chip'+(lg.bloat?' on':'')+'" data-act="cyTog" data-f="bloat" data-k="'+k+'">🎈 Ballonnée</span><span class="chip'+(lg.crave?' on':'')+'" data-act="cyTog" data-f="crave" data-k="'+k+'">🍫 Envies de sucré</span><span class="chip'+(lg.spot?' on':'')+'" data-act="cyTog" data-f="spot" data-k="'+k+'">💧 Spotting</span>'+(c.hormonal?'':'<span class="chip'+(lg.ovu?' on':'')+'" data-act="cyTog" data-f="ovu" data-k="'+k+'">🥚 Ovulation</span>')+'</div></div>';
+ /* intimité */
+ var open=!!UI.cyInt,sx=lg.sex||[],wk=0;for(var i=0;i<7;i++){(c.log[addDays(t,-i)]||{}).sex&&(c.log[addDays(t,-i)].sex.forEach(function(s){wk+=sexKcal(s.min,s.int);}));}
+ h+='<div class="card"><div class="row sp" data-act="cyIntTog" style="cursor:pointer"><h2 style="margin:0">❤️ Intimité</h2><span class="sub">'+(open?'Masquer ▴':'Afficher ▾')+'</span></div>';
+ if(open){
+  h+='<div class="sub" style="margin-top:6px">Note un rapport pour suivre ta libido sur le cycle et l’énergie dépensée.</div><div class="sub" style="margin:10px 0 4px">Durée</div><div class="chips wrap">'+[10,15,20,30,45,60].map(function(mn){return '<span class="chip'+((UI.cyMin||20)===mn?' on':'')+'" data-act="cySet" data-f="cyMin" data-v="'+mn+'">'+mn+' min</span>';}).join('')+'</div><div class="sub" style="margin:10px 0 4px">Intensité</div><div class="chips wrap">'+SEXI.map(function(x){return '<span class="chip'+((UI.cyI||'moderee')===x[0]?' on':'')+'" data-act="cySet" data-f="cyI" data-v="'+x[0]+'">'+x[1]+'</span>';}).join('')+'</div>';
+  h+='<button class="btn pri blk" data-act="cySex" data-k="'+k+'" style="margin-top:10px">+ Ajouter ('+(isT?'aujourd’hui':fmtShort(k))+') · ≈ '+sexKcal(UI.cyMin||20,UI.cyI||'moderee')+' kcal</button>';
+  if(sx.length)h+='<div class="list" style="margin-top:8px">'+sx.map(function(s,i){return '<div class="it" style="cursor:default"><span class="grow">♥ '+s.min+' min · '+(SEXI.find(function(x){return x[0]===s.int;})||SEXI[1])[1]+'</span><b>≈ '+sexKcal(s.min,s.int)+' kcal</b><button class="ibtn" data-act="cySexRm" data-k="'+k+'" data-i="'+i+'">✕</button></div>';}).join('')+'</div>';
+  h+='<div class="sub" style="margin-top:8px">7 derniers jours : ≈ '+wk+' kcal. Pour comparer : 30 min modérées ≈ une marche tranquille de 30 min. Ce n’est pas assez pour changer ton plan repas, rien à compenser.</div><div class="sub" style="font-size:12px;margin-top:6px">ℹ️ Les tableaux de « calories par position » qu’on voit en ligne ne sont pas mesurés : en vrai, c’est surtout la durée, l’intensité et qui « bouge » le plus qui comptent. L’estimation se base sur une étude où des couples ont porté un brassard (≈ 3 kcal/min en moyenne pour les femmes), ajustée à ton poids.</div>';}
+ h+='</div>';
+ /* stats libido */
+ var bins={regles:[],foll:[],ovu:[],lut:[],pre:[]};Object.keys(c.log).forEach(function(d){var l=c.log[d];if(l.libido==null)return;var inf=cyInfo(d);if(!inf.none&&bins[inf.phase])bins[inf.phase].push(l.libido);});
+ var tot=Object.keys(bins).reduce(function(a,b){return a+bins[b].length;},0);
+ h+='<div class="card"><h2>📊 Ton cycle en chiffres</h2><div class="grid3"><div class="stat"><b>'+info.L+' j</b><span>cycle moyen</span></div><div class="stat"><b>'+info.st.pavg+' j</b><span>règles</span></div><div class="stat"><b>'+cyPeriods().length+'</b><span>cycles notés</span></div></div>';
+ if(tot>=5&&!c.hormonal){var best=null,bv=-1;h+='<div class="sub" style="margin:12px 0 4px">Libido moyenne selon la phase</div>'+Object.keys(bins).map(function(ph){var a=bins[ph];if(!a.length)return '';var v=a.reduce(function(x,y){return x+y;},0)/a.length;if(v>bv){bv=v;best=ph;}return '<div class="mac"><div class="row sp"><span>'+PHASES[ph].e+' '+PHASES[ph].n+'</span><span class="sub">'+LIBN[Math.round(v)]+'</span></div>'+bar(v,3,PHASES[ph].c)+'</div>';}).join('')+(best?'<div class="sub">Chez toi, la libido est souvent la plus forte en <b>'+PHASES[best].n.toLowerCase()+'</b>.</div>':'');}
+ else h+='<div class="sub" style="margin-top:10px">Note ta libido et ton énergie quelques jours : l’appli te montrera tes tendances selon les phases.</div>';
+ h+='</div>';
+ h+='<div class="card"><h2>🗓️ Historique</h2>'+(cyPeriods().length?'<div class="list">'+cyPeriods().slice().reverse().slice(0,8).map(function(p,i,arr){var nx=cyPeriods().find(function(q){return q.s>p.s;});return '<div class="it" style="cursor:default"><span class="grow">🩸 '+fmtShort(p.s)+(p.e?' → '+fmtShort(p.e):' (en cours)')+(nx?'<span class="sub" style="display:block;font-size:12px">cycle de '+dDiff(p.s,nx.s)+' jours</span>':'')+'</span><button class="ibtn" data-act="cyRm" data-s="'+p.s+'">✕</button></div>';}).join('')+'</div>':'')+'<label class="f" style="margin-top:8px"><span>Ajouter des règles passées (1er jour)</span><input type="date" id="cy_add" max="'+t+'"></label><button class="btn blk" data-act="cyAdd">+ Ajouter</button></div>';
+ h+='<div class="card"><h2>⚙️ Réglages</h2><div class="chips wrap"><span class="chip'+(c.hormonal?' on':'')+'" data-act="cyHorm">'+(c.hormonal?'✓ ':'')+'💊 Je prends une contraception hormonale</span></div><div class="sub" style="font-size:12px">Dans ce cas, pas d’ovulation naturelle : l’appli n’affiche plus la fenêtre fertile.</div><div class="nudge" style="margin-top:10px">⚠️ Les dates d’ovulation et de fertilité sont des estimations : ce n’est pas une méthode de contraception.</div></div>';
+ return h;}
+function cyHomeCard(){var c=S.cycle;if(!c||!c.periods||!c.periods.length)return '';var info=cyInfo(today());if(info.none)return '';var P=PHASES[info.phase],tn=dDiff(today(),info.nextP);
+ return '<div class="card row sp" data-act="tab" data-t="cycle" style="cursor:pointer;padding:12px 14px"><div><b>'+P.e+' Jour '+info.day+' · '+P.n+'</b><div class="sub">'+(info.inP?'Règles en cours':tn>0?'Règles dans '+tn+' j':tn===0?'Règles prévues aujourd’hui':'Retard de '+(-tn)+' j')+(info.phase==='pre'?' · +1-2 kg d’eau possible, c’est normal':'')+'</div></div><span class="sub" style="font-size:20px">›</span></div>';}
+function cyMark(d){var c=S.cycle;if(!c||!c.periods||!c.periods.length)return '';var inf=cyInfo(d);if(inf.none)return '';return inf.phase==='regles'?' 🩸':inf.phase==='pre'?' 🌧️':'';}
+Object.assign(A,{
+ cyStart1:function(){var c=cyS(),d=$('#cy_first').value||today();c.len=Math.max(21,Math.min(45,num($('#cy_len').value)||28));c.plen=Math.max(2,Math.min(10,num($('#cy_plen').value)||5));var e=addDays(d,c.plen-1);c.periods=[{s:d,e:e<today()?e:null}];save(true);render();toast('🩸 Cycle enregistré');},
+ cyStart:function(){var c=cyS(),t=today();c.periods=c.periods.filter(function(p){return p.s!==t;});c.periods.forEach(function(p){if(!p.e&&p.s<t)p.e=addDays(t,-1)>addDays(p.s,9)?addDays(p.s,c.plen-1):addDays(t,-1);});c.periods.push({s:t,e:null});save(true);render(true);toast('🩸 Noté. Prends soin de toi 💗');},
+ cyEnd:function(){var c=cyS(),ps=cyPeriods(),last=ps[ps.length-1];if(last){var p=c.periods.find(function(x){return x.s===last.s;});p.e=today();}save(true);render(true);toast('✅ Règles terminées');},
+ cyOvu:function(){var c=cyS(),t=today();c.log[t]=c.log[t]||{};c.log[t].ovu=!c.log[t].ovu;save(true);render(true);},
+ cyDay:function(d){UI.cyD=d.k;render(true);},
+ cyCal:function(d){UI.cyOff=(UI.cyOff||0)+(+d.d);render(true);},
+ cyLog:function(d){var c=cyS(),l=c.log[d.k]=c.log[d.k]||{},v=+d.v;l[d.f]=l[d.f]===v?null:v;save(true);render(true);},
+ cyTog:function(d){var c=cyS(),l=c.log[d.k]=c.log[d.k]||{};l[d.f]=!l[d.f];save(true);render(true);},
+ cyIntTog:function(){UI.cyInt=!UI.cyInt;render(true);},
+ cySet:function(d){UI[d.f]=d.f==='cyMin'?+d.v:d.v;render(true);},
+ cySex:function(d){var c=cyS(),l=c.log[d.k]=c.log[d.k]||{};(l.sex=l.sex||[]).push({min:UI.cyMin||20,int:UI.cyI||'moderee'});save(true);render(true);toast('♥ Noté');},
+ cySexRm:function(d){var l=cyS().log[d.k];if(l&&l.sex){l.sex.splice(+d.i,1);save(true);render(true);}},
+ cyRm:function(d){confirmSheet('Supprimer ces règles ?','Les règles du '+fmtDate(d.s)+' seront retirées de l’historique.','Supprimer',function(){var c=cyS();c.periods=c.periods.filter(function(p){return p.s!==d.s;});save(true);render(true);},true);},
+ cyAdd:function(){var v=$('#cy_add').value;if(!v)return toast('Choisis une date');var c=cyS();if(c.periods.some(function(p){return p.s===v;}))return toast('Déjà noté');c.periods.push({s:v,e:addDays(v,c.plen-1)});save(true);render(true);toast('Ajouté');},
+ cyHorm:function(){cyS().hormonal=!cyS().hormonal;save(true);render(true);}
 });
 
 /* ---------- Photos de progression (stockées sur l'appareil) ---------- */
