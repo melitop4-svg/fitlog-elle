@@ -1348,6 +1348,7 @@ function vFrigo(){
  var h='<div class="card hero"><div class="row sp"><div><h2 style="margin:0">🧊 Mon frigo & placard</h2><div class="sub">'+(fr.length?fr.length+' aliment'+(fr.length>1?'s':'')+' : '+esc(fr.map(shortName).join(', ')):'Coche ce qu’il te reste, je te propose un plat facile que tu aimes.')+'</div></div>'+(fr.length?'<button class="btn sm" data-act="frClear">Vider</button>':'')+'</div></div>';
  h+='<div class="seg"><button class="'+(sec==='add'?'on':'')+'" data-act="frSec" data-v="add">✏️ Ce qu’il me reste</button><button class="'+(sec==='idea'?'on':'')+'" data-act="frSec" data-v="idea">💡 Idées de plats'+(fr.length?' ('+frSuggest().length+')':'')+'</button></div>';
  if(sec==='add'){
+  h+='<div class="card" style="padding:12px"><input data-in="frq" id="frq" autocomplete="off" enterkeyhint="done" placeholder="🔍 Tape un aliment : œufs, riz, tomates…" value="'+esc(UI.frq||'')+'"><div id="frres">'+frRes()+'</div></div><div class="sub" style="margin:2px 2px 0">… ou touche les aliments dans la liste :</div>';
   RAYONS.forEach(function(ry,ri){var ks=Object.keys(ING).filter(function(k){return ING[k][6]===ri&&!NOTASTE.test(k)&&tasteOf(k)>=0;}).sort(function(a,b){return ING[a][0].localeCompare(ING[b][0]);});if(!ks.length)return;
    h+='<h3>'+ry.replace(' (dure plusieurs semaines)','')+'</h3><div class="chips wrap">'+ks.map(function(k){return '<span class="chip'+(frHas(k)?' on':'')+'" data-act="fr" data-k="'+k+'">'+(frHas(k)?'✓ ':'')+esc(shortName(k))+'</span>';}).join('')+'</div>';});
   h+='<div class="sub" style="margin-top:12px">Huile, sel, poivre et épices : je considère que tu en as toujours. Les aliments que tu as marqués 🚫 n’apparaissent pas.</div>';
@@ -1494,6 +1495,25 @@ Object.assign(A,{
  cyHorm:function(){cyS().hormonal=!cyS().hormonal;save(true);render(true);}
 });
 
+/* ---------- Frigo : recherche ---------- */
+var FRSYN={oeuf:'oeuf oeufs',rizb:'riz basmati riz blanc',pates:'pates completes',pates_b:'pates spaghetti macaroni coquillettes penne tagliatelle',boeufh:'steak hache boeuf viande hachee viande',poulet:'poulet blanc de poulet filet de poulet escalope de poulet',dinde:'dinde escalope',fblanc:'fromage blanc',skyr:'skyr',yaourt:'yaourt yogourt yoghourt',emmental:'emmental fromage rape gruyere fromage',mozza:'mozzarella mozza',lait:'lait',pdt:'pomme de terre patate pdt',patated:'patate douce',tortilla:'wrap tortilla galette',pain:'pain de mie tartine pain',poelee:'legumes surgeles poelee melange de legumes',fruitsr:'fruits rouges framboise myrtille fraise',cacahuete:'beurre de cacahuete cacahuete peanut',thon:'thon',saumon:'saumon poisson',crevettes:'crevettes',sardines:'sardines',tofu:'tofu',jambon:'jambon',lentilles:'lentilles corail lentille',poischiche:'pois chiches pois chiche',haricotr:'haricots rouges',haricotb:'haricots blancs',hverts:'haricots verts',petitpois:'petits pois',tomatec:'tomates concassees sauce tomate coulis',tomate:'tomate tomates fraiches',mais:'mais',laitcoco:'lait de coco coco',chouf:'chou fleur choufleur',champi:'champignons champignon',salade:'salade laitue iceberg',miel:'miel',nouilles:'nouilles',gnocchi:'gnocchi gnocchis',semoule:'semoule couscous',avoine:'flocons d avoine avoine porridge',banane:'banane',pomme:'pomme',orange:'orange',avocat:'avocat',epinards:'epinards',brocoli:'brocoli brocolis',courgette:'courgette',poivron:'poivron',carotte:'carotte',oignon:'oignon',concombre:'concombre',aubergine:'aubergine'};
+function frNorm(s){return String(s||'').toLowerCase().replace(/œ/g,'oe').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z ]/g,' ').replace(/\s+/g,' ').trim();}
+function frStem(w){return w.length>3?w.replace(/(s|x)$/,''):w;}
+function frMatch(term){var q=frNorm(term).split(' ').map(frStem).filter(Boolean);if(!q.length)return [];var res=[];
+ Object.keys(ING).forEach(function(k){if(NOTASTE.test(k)||tasteOf(k)<0)return;var words=frNorm((FRSYN[k]||'')+' '+shortName(k)+' '+ING[k][0]).split(' ').map(frStem);var sc=0,ok=q.every(function(t){var best=0;words.forEach(function(w){if(w===t)best=Math.max(best,3);else if(w.indexOf(t)===0)best=Math.max(best,2);else if(t.length>=4&&w.indexOf(t)>0)best=Math.max(best,1);});sc+=best;return best>0;});if(ok)res.push([k,sc+(/^(tomate|pates_b|rizb|poulet|oeuf|lait|pdt)$/.test(k)?0.5:0)]);});
+ res.sort(function(a,b){return b[1]-a[1];});return res.map(function(x){return x[0];});}
+function frRes(){var v=UI.frq||'';if(!v.trim())return '<div class="sub" style="font-size:12px;margin-top:6px">Astuce : tape plusieurs aliments séparés par des virgules (ex : « œufs, riz, tomates »), puis appuie sur Entrée.</div>';
+ var terms=v.split(/[,;\n]+/).map(function(s){return s.trim();}).filter(Boolean);
+ if(terms.length===1){var m=frMatch(terms[0]).slice(0,10);if(!m.length)return '<div class="sub" style="margin-top:6px">Aucun aliment trouvé pour « '+esc(terms[0])+' ». Essaie un autre mot (ex : « steak », « pâtes », « fromage »).</div>';
+  return '<div class="chips wrap" style="margin-top:8px">'+m.map(function(k){return '<span class="chip'+(frHas(k)?' on':'')+'" data-act="frPick" data-k="'+k+'">'+(frHas(k)?'✓ ':'+ ')+esc(shortName(k))+'</span>';}).join('')+'</div>';}
+ var found=[],miss=[];terms.forEach(function(t){var m=frMatch(t);if(m.length){if(found.indexOf(m[0])<0)found.push(m[0]);}else miss.push(t);});
+ return '<div class="sub" style="margin-top:8px">'+(found.length?'Je vais ajouter : <b style="color:var(--tx)">'+esc(found.map(shortName).join(', '))+'</b>':'')+(miss.length?'<br>Pas reconnu : '+esc(miss.join(', ')):'')+'</div>'+(found.length?'<button class="btn pri blk" data-act="frAddQ" style="margin-top:8px">+ Ajouter au frigo</button>':'');}
+function frqIn(el){UI.frq=el.value;var r=$('#frres');if(r)r.innerHTML=frRes();};
+Object.assign(A,{
+ frPick:function(d){S.fridge=S.fridge||{};if(S.fridge[d.k])delete S.fridge[d.k];else S.fridge[d.k]=1;UI.frq='';save(true);render(true);var i=$('#frq');if(i)i.focus();toast('✓ '+shortName(d.k));},
+ frAddQ:function(){var v=UI.frq||'',terms=v.split(/[,;\n]+/).map(function(s){return s.trim();}).filter(Boolean),add=[];S.fridge=S.fridge||{};terms.forEach(function(t){var m=frMatch(t);if(m.length){S.fridge[m[0]]=1;if(add.indexOf(m[0])<0)add.push(m[0]);}});if(!add.length)return toast('Aucun aliment reconnu');UI.frq='';save(true);render(true);var i=$('#frq');if(i)i.focus();toast('✓ Ajouté : '+add.map(shortName).join(', '));}
+});
+
 /* ---------- Photos de progression (stockées sur l'appareil) ---------- */
 var PDB=null,PHOTOS=null;
 function pdb(){return new Promise(function(res,rej){if(PDB)return res(PDB);try{var r=indexedDB.open('fitlog_elle_photos',1);r.onupgradeneeded=function(){r.result.createObjectStore('p',{keyPath:'id'});};r.onsuccess=function(){PDB=r.result;res(PDB);};r.onerror=function(){rej(r.error);};}catch(e){rej(e);}});}
@@ -1529,9 +1549,9 @@ var IN={
  aiF:function(el){var x=AIF.items[el.dataset.i],k=el.dataset.k;x[k]=k==='name'?el.value:num(el.value);var b=document.querySelector('[data-act="aiFoodAdd"]');if(b){var t=0;AIF.items.forEach(function(i){if(i.on)t+=num(i.kcal);});b.textContent='Ajouter ('+fmt(t)+' kcal)';}}
 };
 document.addEventListener('click',function(e){var el=e.target.closest('[data-act]');if(!el||el.disabled)return;var f=A[el.dataset.act];if(f){e.preventDefault();f(el.dataset,el);}});
-document.addEventListener('input',function(e){var el=e.target.closest('[data-in]');if(!el)return;var f=IN[el.dataset.in];if(f)f(el);});
+document.addEventListener('input',function(e){var el=e.target.closest('[data-in]');if(!el)return;var f=IN[el.dataset.in]||(el.dataset.in==='frq'?frqIn:null);if(f)f(el);});
 document.addEventListener('change',function(e){var el=e.target;if(el.tagName==='SELECT'&&el.dataset.in==='prof')calcPrev();if(el.type==='checkbox'&&el.dataset.in==='aiOn')IN.aiOn(el);if(el.id==='ph_in'){addPhoto(el.files&&el.files[0]);el.value='';}if(el.id==='ai_img'){var n=$('#ai_imgn');if(n)n.textContent=el.files&&el.files[0]?'📎 '+el.files[0].name:'';}});
-document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='qty'){A.addQty();}});
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='qty'){A.addQty();}if(e.key==='Enter'&&e.target.id==='frq'){e.preventDefault();var t=(UI.frq||'').split(/[,;\n]+/).filter(function(s){return s.trim();});if(t.length>1)A.frAddQ();else{var m=frMatch(UI.frq||'');if(m.length&&!frHas(m[0]))A.frPick({k:m[0]});else if(!m.length)toast('Aucun aliment reconnu');}}});
 
 /* ---------- Démarrage ---------- */
 window.__fitlog={figSVG:figSVG,animType:animType};
